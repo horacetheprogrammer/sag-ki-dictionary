@@ -1291,15 +1291,24 @@
         };
 
         const textLabels = {
-            "en": { "translation": "Translation", "etymology": "Etymology", "pos": "Part of Speech", "ipa": "Pronunciation", "examples": "Context Examples" },
-            "de": { "translation": "Übersetzung", "etymology": "Etymologie / Herkunft", "pos": "Wortart", "ipa": "Aussprache", "examples": "Beispielsätze" },
-            "it": { "translation": "Traduzione", "etymology": "Etimologia", "pos": "Parte del Discorso", "ipa": "Pronuncia", "examples": "Esempi di Contesto" },
-            "ja": { "translation": "翻訳", "etymology": "語源 / 来歴", "pos": "品詞の種類", "ipa": "発音記号", "examples": "用例コンテキスト" },
-            "zh_cn": { "translation": "翻译说明", "etymology": "词源考证", "pos": "语法词性", "ipa": "发音标记", "examples": "典型例句" },
-            "zh_tw": { "translation": "翻譯說明", "etymology": "詞源考證", "pos": "語法詞性", "ipa": "發音標記", "examples": "典型例句" },
-            "fr": { "translation": "Traduction", "etymology": "Étymologie", "pos": "Partie du Discours", "ipa": "Prononciation", "examples": "Exemples de Contexte" },
-            "es": { "translation": "Traducción", "etymology": "Etimología", "pos": "Parte de la oración", "ipa": "Pronunciación", "examples": "Ejemplos de Contexto" },
-            "tp": { "translation": "nimi ante pona", "etymology": "tan", "pos": "pali toki", "ipa": "kalama", "examples": "sitelen toki" }
+            "en": { "translation": "Translation", "etymology": "Etymology", "pos": "Part of Speech", "ipa": "Pronunciation", "examples": "Context Examples",
+                "posOptions": { "ALL": "All POS", "NOUN": "Noun", "VERB": "Verb", "ADJECTIVE": "Adjective", "PRONOUN": "Pronoun", "SUFFIX": "Suffix", "CONJUNCTION": "Conjunction", "PREPOSITION": "Preposition" } },
+            "de": { "translation": "Übersetzung", "etymology": "Etymologie / Herkunft", "pos": "Wortart", "ipa": "Aussprache", "examples": "Beispielsätze",
+                "posOptions": { "ALL": "Alle Wortarten", "NOUN": "Substantiv", "VERB": "Verb", "ADJECTIVE": "Adjektiv", "PRONOUN": "Pronomen", "SUFFIX": "Suffix", "CONJUNCTION": "Konjunktion", "PREPOSITION": "Präposition" } },
+            "it": { "translation": "Traduzione", "etymology": "Etimologia", "pos": "Parte del Discorso", "ipa": "Pronuncia", "examples": "Esempi di Contesto",
+                "posOptions": { "ALL": "Tutte le parti", "NOUN": "Sostantivo", "VERB": "Verbo", "ADJECTIVE": "Aggettivo", "PRONOUN": "Pronome", "SUFFIX": "Suffisso", "CONJUNCTION": "Congiunzione", "PREPOSITION": "Preposizione" } },
+            "ja": { "translation": "翻訳", "etymology": "語源 / 来歴", "pos": "品詞の種類", "ipa": "発音記号", "examples": "用例コンテキスト",
+                "posOptions": { "ALL": "すべての品詞", "NOUN": "名詞", "VERB": "動詞", "ADJECTIVE": "形容詞", "PRONOUN": "代名詞", "SUFFIX": "接尾辞", "CONJUNCTION": "接続詞", "PREPOSITION": "前置詞" } },
+            "zh_cn": { "translation": "翻译说明", "etymology": "词源考证", "pos": "语法词性", "ipa": "发音标记", "examples": "典型例句",
+                "posOptions": { "ALL": "所有词性", "NOUN": "名词", "VERB": "动词", "ADJECTIVE": "形容词", "PRONOUN": "代词", "SUFFIX": "后缀", "CONJUNCTION": "连词", "PREPOSITION": "介词" } },
+            "zh_tw": { "translation": "翻譯說明", "etymology": "詞源考證", "pos": "語法詞性", "ipa": "發音標記", "examples": "典型例句",
+                "posOptions": { "ALL": "所有詞性", "NOUN": "名詞", "VERB": "動詞", "ADJECTIVE": "形容詞", "PRONOUN": "代詞", "SUFFIX": "後綴", "CONJUNCTION": "連詞", "PREPOSITION": "介詞" } },
+            "fr": { "translation": "Traduction", "etymology": "Étymologie", "pos": "Partie du Discours", "ipa": "Prononciation", "examples": "Exemples de Contexte",
+                "posOptions": { "ALL": "Toutes les PdD", "NOUN": "Nom", "VERB": "Verbe", "ADJECTIVE": "Adjectif", "PRONOUN": "Pronom", "SUFFIX": "Suffixe", "CONJUNCTION": "Conjonction", "PREPOSITION": "Préposition" } },
+            "es": { "translation": "Traducción", "etymology": "Etimología", "pos": "Parte de la oración", "ipa": "Pronunciación", "examples": "Ejemplos de Contexto",
+                "posOptions": { "ALL": "Todas las PdO", "NOUN": "Sustantivo", "VERB": "Verbo", "ADJECTIVE": "Adjetivo", "PRONOUN": "Pronombre", "SUFFIX": "Sufijo", "CONJUNCTION": "Conjunción", "PREPOSITION": "Preposición" } },
+            "tp": { "translation": "nimi ante pona", "etymology": "tan", "pos": "pali toki", "ipa": "kalama", "examples": "sitelen toki",
+                "posOptions": { "ALL": "nimi ale", "NOUN": "nimi", "VERB": "pali", "ADJECTIVE": "nimi ante", "PRONOUN": "nimi mi", "SUFFIX": "nimi monsi", "CONJUNCTION": "nimi wan", "PREPOSITION": "nimi lon" } }
         };
 
         function renderWordList() {
@@ -1444,6 +1453,16 @@
             renderWordList();
         }
 
+        function updatePosFilter() {
+            const labels = textLabels[currentLanguage] || textLabels['en'];
+            const opts = labels.posOptions;
+            const select = document.getElementById('posFilter');
+            const currentVal = select.value;
+            const order = ['ALL', 'NOUN', 'VERB', 'ADJECTIVE', 'PRONOUN', 'SUFFIX', 'CONJUNCTION', 'PREPOSITION'];
+            select.innerHTML = order.map(v => `<option value="${v}">${opts[v]}</option>`).join('');
+            select.value = currentVal;
+        }
+
         function clearSearch() {
             document.getElementById('searchInput').value = '';
             document.getElementById('posFilter').value = 'ALL';
@@ -1470,6 +1489,7 @@
 
             document.getElementById('langSelect').addEventListener('change', (e) => {
                 currentLanguage = e.target.value;
+                updatePosFilter();
                 renderWordList();
                 if (activeSelection) renderDetailPane();
             });
