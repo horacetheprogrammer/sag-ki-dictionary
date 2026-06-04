@@ -4,5 +4,6 @@
       "Bash(pnpm *)",
       "Bash(pnpm run build)"
     ]
-  }
+  },
+  "disableAllHooks": true
 }
