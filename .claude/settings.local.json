@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm *)",
+      "Bash(pnpm run build)",
+      "Bash(pnpm run typecheck)"
+    ]
+  },
+  "disableAllHooks": true
+}
