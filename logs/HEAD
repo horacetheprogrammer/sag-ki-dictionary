@@ -1,0 +1,7 @@
+0000000000000000000000000000000000000000 2246770e5ba37143aac652dce22b28453f9cff4f Replit Agent <agent@replit.com> 1780011451 +0000	commit (initial): Initial commit
+2246770e5ba37143aac652dce22b28453f9cff4f cbbaea333e419db43ff6e6bc44f53ecc84d6616a Replit Agent <agent@replit.com> 1780402320 +0000	commit: Add Sag~ki language dictionary web application with multilingual support
+cbbaea333e419db43ff6e6bc44f53ecc84d6616a 0488ff2a398b2217a68409aca97fe878725cb1b2 Replit Agent <agent@replit.com> 1780403110 +0000	commit: Update dictionary structure and add missing translations
+0488ff2a398b2217a68409aca97fe878725cb1b2 eba98047e5acc75c8273662d09c768f36c40de7d Replit Agent <agent@replit.com> 1780474172 +0000	commit: Saved progress at the end of the loop
+eba98047e5acc75c8273662d09c768f36c40de7d f413969d2139b9247f61581da9ae96de77751e7c Replit Agent <agent@replit.com> 1780474479 +0000	commit: Add copy button and improve transliteration display
+f413969d2139b9247f61581da9ae96de77751e7c 856c1adc5f7e9831fc95eb4b3ccbac6007f4ed23 Replit Agent <agent@replit.com> 1780474538 +0000	commit: Remove the display of all language translations
+856c1adc5f7e9831fc95eb4b3ccbac6007f4ed23 0556c3e799ab87dbec324d3499c28c6f68d02c8a Replit Agent <agent@replit.com> 1780475651 +0000	commit: Add translations for various etymological and structural phrases

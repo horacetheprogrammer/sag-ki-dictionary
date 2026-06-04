@@ -1,0 +1,1481 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sag~ki Premium Dictionary Compendium</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for premium dictionary aesthetics -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,600;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        parchment: {
+                            50: '#FDFCF9',
+                            100: '#FAF8F5',
+                            200: '#F4EFE6', 
+                            300: '#E8E1D1', 
+                            400: '#D5C8B3',
+                            500: '#A39887',
+                            700: '#5C5446',
+                            800: '#4A4238', 
+                            900: '#2A251E',
+                        },
+                        pine: {
+                            DEFAULT: '#CD5B5B', 
+                            dark: '#A34646',
+                        },
+                        darkmode: {
+                            bg: '#1A1816', 
+                            surface: '#24211D', 
+                            border: '#3A352F', 
+                            text: '#E8E1D1', 
+                            muted: '#A39887' 
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Merriweather"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                        script: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D5C8B3;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #3A352F;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A39887;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #CD5B5B;
+        }
+        .script-text {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            letter-spacing: 2px;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+    </style>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+    </script>
+</head>
+<body class="bg-parchment-100 text-parchment-800 dark:bg-darkmode-bg dark:text-darkmode-text font-sans h-full flex flex-col overflow-hidden transition-colors duration-200">
+
+    <!-- Top Navigation Bar -->
+    <header class="h-16 bg-parchment-200 dark:bg-darkmode-surface border-b border-parchment-300 dark:border-darkmode-border flex items-center justify-between px-4 lg:px-6 shrink-0 z-10">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-3 w-1/3 min-w-max cursor-pointer text-left" onclick="clearSelection()">
+            <svg class="text-pine shrink-0 transition-colors duration-200" width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="42" stroke="currentColor" stroke-width="8" />
+                <path d="M50 8V92" stroke="currentColor" stroke-width="8" stroke-linecap="round" />
+                <path d="M8 50H92" stroke="currentColor" stroke-width="8" stroke-linecap="round" />
+                <path d="M50 8C65 20 72 35 72 50C72 65 65 80 50 92" stroke="currentColor" stroke-width="7" stroke-linecap="round" />
+                <path d="M50 8C35 20 28 35 28 50C28 65 35 80 50 92" stroke="currentColor" stroke-width="7" stroke-linecap="round" />
+                <path d="M16 28C26 36 74 36 84 28" stroke="currentColor" stroke-width="7" stroke-linecap="round" />
+                <path d="M16 72C26 64 74 64 84 72" stroke="currentColor" stroke-width="7" stroke-linecap="round" />
+            </svg>
+            <div class="flex flex-col">
+                <div class="font-script text-pine text-xl leading-tight transition-colors duration-200">Саг~ки</div>
+                <div class="text-[10px] font-serif uppercase tracking-wider text-parchment-700 dark:text-darkmode-muted -mt-1 font-semibold" id="logoSubtitle">
+                    Sag~ki ki~keta / Саг~ки ки~кета
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar Area -->
+        <div class="flex items-center gap-3 flex-1 max-w-xl justify-center">
+            <div class="flex items-center w-full bg-parchment-100 dark:bg-darkmode-bg border border-parchment-300 dark:border-darkmode-border rounded-sm h-9 px-3 focus-within:ring-1 focus-within:ring-pine transition-shadow">
+                <input type="text" id="searchInput" placeholder="Search Latin, Cyrillic, or English..." class="w-full bg-transparent outline-none text-sm placeholder-parchment-500 dark:placeholder-gray-500 italic dark:text-darkmode-text">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-parchment-500 dark:text-darkmode-muted">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </div>
+            
+            <select id="posFilter" class="hidden md:block h-9 bg-parchment-100 dark:bg-darkmode-bg border border-parchment-300 dark:border-darkmode-border text-sm rounded-sm px-2 outline-none cursor-pointer dark:text-darkmode-text">
+                <option value="ALL">All POS</option>
+                <option value="NOUN">Noun</option>
+                <option value="VERB">Verb</option>
+                <option value="ADJECTIVE">Adjective</option>
+                <option value="PRONOUN">Pronoun</option>
+                <option value="SUFFIX">Suffix</option>
+                <option value="CONJUNCTION">Conjunction</option>
+                <option value="PREPOSITION">Preposition</option>
+            </select>
+        </div>
+
+        <!-- Right Side Tools & Multi-Language Dropdown -->
+        <div class="flex items-center justify-end gap-3 w-1/3 min-w-max">
+            <!-- Language Switcher -->
+            <select id="langSelect" class="h-9 bg-parchment-100 dark:bg-darkmode-bg border border-parchment-300 dark:border-darkmode-border text-xs rounded-sm px-2 outline-none cursor-pointer dark:text-darkmode-text font-medium">
+                <option value="en">🇺🇸 English</option>
+                <option value="de">🇩🇪 Deutsch</option>
+                <option value="it">🇮🇹 Italiano</option>
+                <option value="ja">🇯🇵 日本語</option>
+                <option value="zh_cn">🇨🇳 简体中文</option>
+                <option value="zh_tw">🇹🇼 繁體中文</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="tp">🗣️ toki pona</option>
+            </select>
+
+            <button onclick="toggleDarkMode()" class="p-1.5 rounded-full hover:bg-parchment-300 dark:hover:bg-darkmode-border transition-colors focus:outline-none text-parchment-800 dark:text-pine" title="Toggle Dark Mode">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            <div class="text-sm font-semibold whitespace-nowrap hidden lg:block">
+                <span id="entryCount" class="dark:text-pine">0</span> <span id="entriesLabel" class="font-normal text-parchment-700 dark:text-darkmode-muted">entries</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden relative">
+        <!-- Sidebar: Word List -->
+        <aside class="w-full md:w-80 lg:w-96 bg-parchment-200 dark:bg-darkmode-surface border-r border-parchment-300 dark:border-darkmode-border flex flex-col shrink-0 transition-transform duration-300 fixed md:relative top-0 left-0 z-40 h-full transform -translate-x-full md:translate-x-0" id="sidebar">
+            
+            <!-- Mobile Close Header -->
+            <div class="flex md:hidden justify-between items-center p-3 border-b border-parchment-300 dark:border-darkmode-border bg-parchment-200 dark:bg-darkmode-surface shrink-0">
+                <span class="font-bold text-xs uppercase text-parchment-700 dark:text-darkmode-text tracking-wider">Word Ledger</span>
+                <button onclick="toggleSidebar()" class="text-xs font-bold px-2 py-1 border border-parchment-300 dark:border-darkmode-border rounded bg-parchment-100 dark:bg-darkmode-bg text-pine hover:bg-white dark:hover:bg-darkmode-border">
+                    ✕ Close
+                </button>
+            </div>
+
+            <!-- Sidebar Toolbar -->
+            <div class="flex gap-2 p-3 border-b border-parchment-300 dark:border-darkmode-border overflow-x-auto shrink-0 bg-parchment-200 dark:bg-darkmode-surface no-scrollbar">
+                <button onclick="selectRandom()" id="randomBtn" class="px-4 py-1.5 bg-parchment-100 dark:bg-darkmode-bg border border-parchment-300 dark:border-darkmode-border rounded-sm text-xs font-semibold hover:bg-white dark:hover:bg-darkmode-border text-parchment-800 dark:text-darkmode-text transition-colors shadow-sm">Random Entry</button>
+                <button onclick="clearSearch()" id="clearBtn" class="px-4 py-1.5 bg-parchment-100 dark:bg-darkmode-bg border border-parchment-300 dark:border-darkmode-border rounded-sm text-xs font-semibold hover:bg-white dark:hover:bg-darkmode-border text-parchment-800 dark:text-darkmode-text transition-colors shadow-sm">Clear Filter</button>
+            </div>
+
+            <!-- Word List Container -->
+            <div id="wordListContainer" class="flex-1 overflow-y-auto pb-20">
+                <!-- Content injected via JS -->
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 bg-parchment-100 dark:bg-darkmode-bg overflow-y-auto relative flex flex-col" id="mainContent">
+            <!-- Mobile Sidebar Toggle -->
+            <button onclick="toggleSidebar()" class="md:hidden absolute top-4 left-4 z-35 p-2 bg-parchment-200 dark:bg-darkmode-surface border border-parchment-300 dark:border-darkmode-border rounded shadow-md text-parchment-800 dark:text-darkmode-text">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+
+            <!-- Default Placeholder Screen -->
+            <div id="defaultScreen" class="flex-1 flex flex-col items-center justify-center p-8 fade-in">
+                
+                <!-- Huge Script Title -->
+                <div class="text-pine opacity-85 text-7xl md:text-8xl lg:text-9xl font-script tracking-widest mb-4 select-none text-center leading-none transition-colors duration-200">
+                    Саг~ки
+                </div>
+                
+                <p class="font-serif italic text-parchment-500 dark:text-darkmode-muted mb-12 text-center" id="placeholderText">
+                    Type to search — or tap an entry on the left panel.
+                </p>
+
+                <!-- Keyboard Helper (Type to find) -->
+                <div class="bg-parchment-200 dark:bg-darkmode-surface border border-parchment-300 dark:border-darkmode-border rounded-md p-6 max-w-xl w-full shadow-md">
+                    <h3 class="text-center text-xs tracking-[0.2em] font-semibold text-pine mb-6 uppercase transition-colors" id="typeToFindLabel">Type &middot; To Find</h3>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-4">
+                        <!-- Mapping Items -->
+                        <div class="flex justify-between items-center bg-parchment-100 dark:bg-darkmode-bg p-2.5 rounded shadow-sm border border-parchment-300 dark:border-darkmode-border">
+                            <code class="bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded text-xs border border-gray-200 dark:border-gray-700 dark:text-pine">a:</code>
+                            <span class="font-serif font-bold text-lg text-parchment-900 dark:text-gray-100">ä</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-parchment-100 dark:bg-darkmode-bg p-2.5 rounded shadow-sm border border-parchment-300 dark:border-darkmode-border">
+                            <code class="bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded text-xs border border-gray-200 dark:border-gray-700 dark:text-pine">e:</code>
+                            <span class="font-serif font-bold text-lg text-parchment-900 dark:text-gray-100">ë</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-parchment-100 dark:bg-darkmode-bg p-2.5 rounded shadow-sm border border-parchment-300 dark:border-darkmode-border">
+                            <code class="bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded text-xs border border-gray-200 dark:border-gray-700 dark:text-pine">th</code>
+                            <span class="font-serif font-bold text-lg text-parchment-900 dark:text-gray-100">ҫ</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-parchment-100 dark:bg-darkmode-bg p-2.5 rounded shadow-sm border border-parchment-300 dark:border-darkmode-border">
+                            <code class="bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded text-xs border border-gray-200 dark:border-gray-700 dark:text-pine">sh</code>
+                            <span class="font-serif font-bold text-lg text-parchment-900 dark:text-gray-100">ш</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-parchment-100 dark:bg-darkmode-bg p-2.5 rounded shadow-sm border border-parchment-300 dark:border-darkmode-border">
+                            <code class="bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded text-xs border border-gray-200 dark:border-gray-700 dark:text-pine">zh</code>
+                            <span class="font-serif font-bold text-lg text-parchment-900 dark:text-gray-100">ж</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-parchment-100 dark:bg-darkmode-bg p-2.5 rounded shadow-sm border border-parchment-300 dark:border-darkmode-border">
+                            <code class="bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded text-xs border border-gray-200 dark:border-gray-700 dark:text-pine">ch</code>
+                            <span class="font-serif font-bold text-lg text-parchment-900 dark:text-gray-100">ч</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail Screen (Hidden by default) -->
+            <div id="detailScreen" class="hidden p-8 md:p-16 max-w-4xl mx-auto w-full fade-in pb-32">
+                <!-- Details injected via JS -->
+            </div>
+            
+        </main>
+    </div>
+
+    <script>
+        let queryFilter = '';
+        let posFilter = 'ALL';
+        let activeSelection = null;
+        let currentLanguage = 'en';
+
+        // Precise, phonetically aligned transcription algorithm map
+        const multiMap = [
+            { lat: 'zh', cyr: 'ж' }, { lat: 'sh', cyr: 'ш' }, { lat: 'ch', cyr: 'ч' }, { lat: 'th', cyr: 'ҫ' },
+            { lat: 'Zh', cyr: 'Ж' }, { lat: 'Sh', cyr: 'Ш' }, { lat: 'Ch', cyr: 'Ч' }, { lat: 'Th', cyr: 'Ҫ' },
+            { lat: 'ZH', cyr: 'Ж' }, { lat: 'SH', cyr: 'Ш' }, { lat: 'CH', cyr: 'Ч' }, { lat: 'TH', cyr: 'Ҫ' }
+        ];
+        
+        const singleMap = [
+            { lat: 'a', cyr: 'а' }, { lat: 'ä', cyr: 'ӓ' }, { lat: 'e', cyr: 'е' }, { lat: 'ë', cyr: 'ё' },
+            { lat: 'i', cyr: 'и' }, { lat: 'o', cyr: 'о' }, { lat: 'u', cyr: 'у' }, { lat: 'p', cyr: 'п' },
+            { lat: 'b', cyr: 'б' }, { lat: 't', cyr: 'т' }, { lat: 'd', cyr: 'д' }, { lat: 'k', cyr: 'к' },
+            { lat: 'g', cyr: 'г' }, { lat: 'f', cyr: 'ф' }, { lat: 'v', cyr: 'в' }, { lat: 's', cyr: 'с' },
+            { lat: 'z', cyr: 'з' }, { lat: 'm', cyr: 'м' }, { lat: 'n', cyr: 'н' }, { lat: 'r', cyr: 'р' },
+            { lat: 'l', cyr: 'л' }, { lat: 'h', cyr: 'һ' }, { lat: 'y', cyr: 'й' },
+            { lat: 'A', cyr: 'А' }, { lat: 'Ä', cyr: 'Ӓ' }, { lat: 'E', cyr: 'Е' }, { lat: 'Ë', cyr: 'Ё' },
+            { lat: 'I', cyr: 'И' }, { lat: 'O', cyr: 'О' }, { lat: 'U', cyr: 'У' }, { lat: 'P', cyr: 'П' },
+            { lat: 'B', cyr: 'Б' }, { lat: 'T', cyr: 'Т' }, { lat: 'D', cyr: 'Д' }, { lat: 'K', cyr: 'К' },
+            { lat: 'G', cyr: 'Г' }, { lat: 'F', cyr: 'Ф' }, { lat: 'V', cyr: 'В' }, { lat: 'S', cyr: 'С' },
+            { lat: 'Z', cyr: 'З' }, { lat: 'M', cyr: 'М' }, { lat: 'N', cyr: 'Н' }, { lat: 'R', cyr: 'Р' },
+            { lat: 'L', cyr: 'Л' }, { lat: 'H', cyr: 'Һ' }, { lat: 'Y', cyr: 'Й' }
+        ];
+
+        // Robust, high-speed phonetic transliteration parser
+        function convertToCyrillic(text) {
+            if (!text) return "";
+            let result = "";
+            let i = 0;
+            while (i < text.length) {
+                let matched = false;
+                for (let map of multiMap) {
+                    if (text.substr(i, map.lat.length) === map.lat) {
+                        result += map.cyr;
+                        i += map.lat.length;
+                        matched = true;
+                        break;
+                    }
+                }
+                if (matched) continue;
+                for (let map of singleMap) {
+                    if (text.substr(i, map.lat.length) === map.lat) {
+                        result += map.cyr;
+                        i += map.lat.length;
+                        matched = true;
+                        break;
+                    }
+                }
+                if (!matched) {
+                    result += text[i];
+                    i++;
+                }
+            }
+            return result;
+        }
+
+        // Clean, structured database schema holding base dictionary values
+        const rawData = [
+            {"word": "-ä", "uses": [{"hasBadge": false, "badgeText": "", "type": "SUFFIX", "explanation": "singular marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)", "example": "At-ä bun-ä ver-zh.", "etymology": "", "exampleTranslation": "I saw (a) fruit."}]},
+            {"word": "-ch", "uses": [{"hasBadge": false, "badgeText": "", "type": "SUFFIX", "explanation": "present tense / present continuous marker", "example": "Ot-ä ak engi-ch.", "etymology": "", "exampleTranslation": "He/she/it belongs here."}]},
+            {"word": "-ë", "uses": [{"hasBadge": false, "badgeText": "", "type": "SUFFIX", "explanation": "plural marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)", "example": "At-ä bun-ë ver-zh.", "etymology": "", "exampleTranslation": "I saw fruits."}]},
+            {"word": "-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "SUFFIX", "explanation": "negation marker", "example": "At-ä bun-ä ver-zh-re.", "etymology": "", "exampleTranslation": "I didn't see a fruit."}]},
+            {"word": "-sh", "uses": [{"hasBadge": false, "badgeText": "", "type": "SUFFIX", "explanation": "future tense marker", "example": "Ot-ä ak get-sh.", "etymology": "", "exampleTranslation": "He/she/it will go here."}]},
+            {"word": "-zh", "uses": [{"hasBadge": false, "badgeText": "", "type": "SUFFIX", "explanation": "past tense marker", "example": "Ot-ä ak engi-zh.", "etymology": "", "exampleTranslation": "He/she/it belonged here."}]},
+            {"word": "abot", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "shark", "example": "At-ä abot-ä ver-zh.", "etymology": "from Anonymous K14", "exampleTranslation": "I saw a shark."}]},
+            {"word": "ada", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "daughter", "example": "Ada-ä madas~sag van-ch.", "etymology": "borrowed from Igbo ada", "exampleTranslation": "(The) daughter is a student."}]},
+            {"word": "adigi", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "fast, swift", "example": "Adigi pituk-ä tin~get-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "The swift bird flies."}]},
+            {"word": "adun", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "universe", "example": "Adun-ä pien van-ch.", "etymology": "borrowed from Abkhazian Аduneи", "exampleTranslation": "The universe is big."}]},
+            {"word": "aga", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "mouth", "example": "Kutu-ä aga-ä bedo-ch.", "etymology": "borrowed from Dhivehi އަނގަ", "exampleTranslation": "The cat has a mouth."}]},
+            {"word": "alia", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to suggest / suggestion", "example": "At-ä di alia-ä er-zh.", "etymology": "borrowed from Breton aliañ", "exampleTranslation": "I made a good suggestion."}]},
+            {"word": "alime", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "food", "example": "Hau tag-ä ia at-ë alime bedo-ch.", "etymology": "borrowed from Spanish alimento", "exampleTranslation": "Give us this day our daily food."}]},
+            {"word": "am", "uses": [{"hasBadge": false, "badgeText": "", "type": "EXCLAMATION", "explanation": "hi", "example": "Am kaba!", "etymology": "borrowed from Luo amosi", "exampleTranslation": "Hi friend!"}]},
+            {"word": "amal", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "PRONOUN", "explanation": "more", "example": "At-ä amal bun-ë lah-ch.", "etymology": "borrowed from Kalaallisut aammalu", "exampleTranslation": "I eat more fruits."}]},
+            {"word": "anes", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "different", "example": "Ot-ä anes shai-ë van-ch.", "etymology": "borrowed from Limburgish angesj", "exampleTranslation": "They are different things."}]},
+            {"word": "aso", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "content", "example": "Aso-ä tusam van-ch.", "etymology": "borrowed from Acehnese asoe", "exampleTranslation": "(The) content is famous."}]},
+            {"word": "at", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "PRONOUN", "explanation": "first person marker (I, we)", "example": "At-ä bun-ä ver-zh.", "etymology": "", "exampleTranslation": "I saw (a) fruit."}]},
+            {"word": "au", "uses": [{"hasBadge": false, "badgeText": "", "type": "CONJUNCTION", "explanation": "also", "example": "Au, at-ä bun-ë lah-zh.", "etymology": "", "exampleTranslation": "Also, I ate the fruits."}]},
+            {"word": "av", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADVERB", "explanation": "there", "example": "Av chat tari-ä van-ch.", "etymology": "borrowed from Malayalam അവിടെ", "exampleTranslation": "There is an emergency now."}]},
+            {"word": "bag", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "vegetable", "example": "At-ä bag-ë lah-ch.", "etymology": "borrowed from asaasaa", "exampleTranslation": "I eat vegetables."}]},
+            {"word": "bar", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "electric, electricity", "example": "Hau bar~suli-ä van-ch.", "etymology": "borrowed from Pashto برقي", "exampleTranslation": "This is an electronic list."}]},
+            {"word": "bar~lafi", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "cursor", "example": "Ha bar~lafi-ä rai pien li?", "etymology": "electronic~sign", "exampleTranslation": "Why is the cursor so small?"}]},
+            {"word": "bar~suek", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "computer mouse", "example": "At-ä bar~suek-ä uso-ch.", "etymology": "Electric~mouse", "exampleTranslation": "I am using a computer mouse."}]},
+            {"word": "bedo", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to have / to possess", "example": "At-ä sian bedo-ch-re.", "etymology": "borrowed from Luo bedo gi", "exampleTranslation": "I do not have money."}]},
+            {"word": "besut", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "knife", "example": "At-ä lin besut-ä bedo-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "I have zero knives."}]},
+            {"word": "bo", "uses": [{"hasBadge": false, "badgeText": "", "type": "PREPOSITION", "explanation": "from", "example": "Mis~hune-ä to bo sag van-ch.", "etymology": "borrowed from Scots Gaelic bho", "exampleTranslation": "The market is full of people."}]},
+            {"word": "bodu", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to grow", "example": "Madas~sag-ä to tag bodu-ch.", "etymology": "borrowed from Dhivehi ބོޑުވުން", "exampleTranslation": "The student grows every day."}]},
+            {"word": "boto", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to know", "example": "At-ä et-ä ia nin boto-ch.", "etymology": "borrowed from Batak Toba boto", "exampleTranslation": "I know your name."}]},
+            {"word": "bu", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "brother", "example": "At-ä bu-ä bedo-ch.", "etymology": "borrowed from Chinese 兄", "exampleTranslation": "I have a brother."}]},
+            {"word": "bun", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "fruit", "example": "At-ä tam bun-ë ver-zh.", "etymology": "borrowed from Filipino bunga", "exampleTranslation": "I saw many fruits."}]},
+            {"word": "cha", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADVERB", "explanation": "now", "example": "At-ä pi~hoka ia tin cha ver-ch.", "etymology": "tied to present tense structure", "exampleTranslation": "I am staring at a concrete sky now."}]},
+            {"word": "cha~cha", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "centre, middle", "example": "Hau madas-ä lan cha~cha thes van-ch.", "etymology": "now~now (borrowed expression from Lingala)", "exampleTranslation": "This school is in a central place."}]},
+            {"word": "chat", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "uncle", "example": "At-ä chat-ä hune-ä fatin-zh.", "etymology": "borrowed from Awadhi चाचा", "exampleTranslation": "My uncle built a house."}]},
+            {"word": "chau", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "hot", "example": "Kuar~pi-ä chau van-ch.", "etymology": "borrowed from French chaud", "exampleTranslation": "The tea is hot."}]},
+            {"word": "chau-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "cold", "example": "Chau-re ere-ch, tag-ä pien van-ch.", "etymology": "the opposite of hot", "exampleTranslation": "Feeling cold, the day is old."}]},
+            {"word": "China", "uses": [{"hasBadge": false, "badgeText": "", "type": "NOUN", "explanation": "China", "example": "Ot-ä China bo get-zh.", "etymology": "", "exampleTranslation": "He came from China."}]},
+            {"word": "dai", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "left", "example": "At-ä dai dibo-ä ver-ch.", "etymology": "", "exampleTranslation": "I see my left hand."}]},
+            {"word": "dai-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "right (direction)", "example": "Ot-ä dai-re fem-ä feri-zh.", "etymology": "the opposite of left", "exampleTranslation": "He hurt his right foot."}]},
+            {"word": "dai~dai-re", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "row", "example": "Madas~sag-ë to dai~dai-re lan bedo-ch.", "etymology": "Left~right", "exampleTranslation": "The students are all in a row."}]},
+            {"word": "dem", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "ten / 10", "example": "At-ä dem bun-ë bedo-ch.", "etymology": "borrowed from PIE *deḱm̥(t)", "exampleTranslation": "I have ten fruits."}]},
+            {"word": "di", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "good, cool, nice", "example": "At-ä di notas-ë bedo-ch.", "etymology": "borrowed from Lao ດີ", "exampleTranslation": "I have good grades."}]},
+            {"word": "di-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "bad, evil", "example": "Di-re~shai-ë fer-ch.", "etymology": "the opposite of good", "exampleTranslation": "Forgive bad deeds."}]},
+            {"word": "di-re~gus~shai", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "temptation", "example": "Et-ä at-ë gu di-re~gus~shai get-ch-re.", "etymology": "the opposite of good~want~thing", "exampleTranslation": "Lead us not into temptation."}]},
+            {"word": "di-re~shai", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "mistake, trespass", "example": "Di-re~shai ia at-ë fer-ch.", "etymology": "bad~things", "exampleTranslation": "Forgive our trespasses."}]},
+            {"word": "dibo", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "hand", "example": "At-ä duo dibo-ë bedo-ch.", "etymology": "borrowed from Kituba diboko", "exampleTranslation": "I have two hands."}]},
+            {"word": "duo", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "two / 2", "example": "At-ä duo bun-ë bedo-ch.", "etymology": "borrowed from PIE *d(u)wo-", "exampleTranslation": "I have two fruits."}]},
+            {"word": "ei", "uses": [{"hasBadge": false, "badgeText": "", "type": "CONJUNCTION", "explanation": "and", "example": "At-ë sil-ë ei fem-ë bedo-ch.", "etymology": "", "exampleTranslation": "We have eyes and feet."}]},
+            {"word": "eo", "uses": [{"hasBadge": false, "badgeText": "", "type": "CONJUNCTION", "explanation": "because", "example": "Eo et-ä bun-ë lar-zh, ua at bun-ë lar-ch mogu-re.", "etymology": "", "exampleTranslation": "Because you ate fruit, so I cannot eat fruit."}]},
+            {"word": "er", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to do / to let", "example": "Ninin-ä ia et-ä pavit fatin-ch er-ch.", "etymology": "borrowed from Tiv eren", "exampleTranslation": "Hallowed be thy name."}]},
+            {"word": "ere", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to feel", "example": "At-ä kas ere-ch.", "etymology": "borrowed from Hungarian érez", "exampleTranslation": "I feel sad."}]},
+            {"word": "ero", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to wish / wish", "example": "Ei at hoi ero-ch.", "etymology": "borrowed from Makassar ero", "exampleTranslation": "And I wish for once."}]},
+            {"word": "et", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "PRONOUN", "explanation": "second person marker (you, you all)", "example": "Et-ä bun-ä ver-zh.", "etymology": "", "exampleTranslation": "You saw (a) fruit."}]},
+            {"word": "fa", "uses": [{"hasBadge": false, "badgeText": "", "type": "EXCLAMATION", "explanation": "bye", "example": "Fa kaba!", "etymology": "borrowed from Samoan fa", "exampleTranslation": "Goodbye friend!"}]},
+            {"word": "fatin", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to invent / to make", "example": "Ot-ë gebis-ë fatin-ch.", "etymology": "borrowed from Chamorro fatinas", "exampleTranslation": "They make furniture."}]},
+            {"word": "fem", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "foot", "example": "At-ä duo fem-ë bedo-ch.", "etymology": "borrowed from Jabe & Latin os femoris", "exampleTranslation": "I have two feet."}]},
+            {"word": "fer", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to forgive", "example": "Ei di-re~shai ia at-ë fer-ch.", "etymology": "borrowed from German verzeihen", "exampleTranslation": "And forgive our trespasses."}]},
+            {"word": "feri", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to hurt", "example": "At-ä dibo-ä feri-ch.", "etymology": "borrowed from Italian ferito", "exampleTranslation": "My hand hurts."}]},
+            {"word": "fu", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "father", "example": "Fu ia ot-ë lan hefon van-ch.", "etymology": "borrowed from Chinese 父", "exampleTranslation": "Our Father who art in heaven."}]},
+            {"word": "fu~fu", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "grandfather (paternal)", "example": "Fu~fu-ä tusam van-zh.", "etymology": "father~father", "exampleTranslation": "(The) paternal grandfather was famous."}]},
+            {"word": "fu~mu", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "grandmother (paternal)", "example": "Fu~mu-ä at-ä suka-ch.", "etymology": "father~mother", "exampleTranslation": "I like my paternal grandmother."}]},
+            {"word": "fun", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "ground, land, earth, dirt", "example": "Fun-ä pi~hoka ma rop-ch.", "etymology": "borrowed from Thai พื้น", "exampleTranslation": "The ground is filled with concrete."}]},
+            {"word": "gab", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "before", "example": "Gab at-ä kato par-ch.", "etymology": "borrowed from Persian قبل", "exampleTranslation": "Before I thought of excelling."}]},
+            {"word": "gani", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to change", "example": "At-ä di-re~shai-ë gani-zh.", "etymology": "borrowed from Marshallese jañij", "exampleTranslation": "I changed my mistakes."}]},
+            {"word": "ganu", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "before (time/previous)", "example": "At-ä ia ganu tag kato-ch.", "etymology": "borrowed from Betawi ganu", "exampleTranslation": "I surpass my previous day."}]},
+            {"word": "ganu-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "after", "example": "Ganu-re to par-ë, at-ä et ver-ch.", "etymology": "the opposite of before", "exampleTranslation": "After all these thoughts, I look at you."}]},
+            {"word": "gebis", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "furniture", "example": "Bun-ë ho gebis-ä ver-zh.", "etymology": "from Anonymous K14", "exampleTranslation": "I saw fruits on the furniture."}]},
+            {"word": "gen", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "grass", "example": "Kutu-ä gen ho turo-ch.", "etymology": "", "exampleTranslation": "The cat is sleeping on the grass."}]},
+            {"word": "get", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to go / to move", "example": "Fun-ä ia et-ä fatin-ch get-ch.", "etymology": "borrowed from Azerbaijani getmək", "exampleTranslation": "Thy kingdom come (Thy land make move)."}]},
+            {"word": "get-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to stop", "example": "Hau get-re~shai at-ë get-re-ch.", "etymology": "the opposite of go", "exampleTranslation": "This barrier stops us."}]},
+            {"word": "get-re~shai", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "barrier", "example": "Hau get-re~shai at-ë get-re-ch.", "etymology": "stop~thing", "exampleTranslation": "There is a barrier stopping us."}]},
+            {"word": "get~miha", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "car", "example": "Get~miha-ä ia at-ä rai pien li?", "etymology": "go~machine", "exampleTranslation": "Why is the cursor so small?"}]},
+            {"word": "get~mis~sag", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "driver", "example": "Get~mis~sag-ä get~miha-ä ver-ch.", "etymology": "go~machine~person", "exampleTranslation": "The driver sees the car."}]},
+            {"word": "get~sag", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "driver (contracted)", "example": "Get~sag-ä get~miha-ä ver-ch.", "etymology": "go~person", "exampleTranslation": "The driver sees the car."}]},
+            {"word": "gom", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "button", "example": "Gom-ä uf~uf-re!", "etymology": "borrowed from Hungarian gomb", "exampleTranslation": "Toggle the button!"}]},
+            {"word": "got", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "god", "example": "At-ä got trua-ch.", "etymology": "borrowed from German Gott", "exampleTranslation": "I believe in God."}]},
+            {"word": "gue", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "four / 4", "example": "At-ä gue bun-ë bedo-ch.", "etymology": "borrowed from PIE *kʷetwor", "exampleTranslation": "I have four fruits."}]},
+            {"word": "gumu", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "republic", "example": "Gumu-ä mune-ch.", "etymology": "borrowed from Arabic جمهورية", "exampleTranslation": "The republic is making progress."}]},
+            {"word": "gur", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "loud", "example": "Telephone-ä gur van-ch.", "etymology": "borrowed from Crimean Tatar gür / guрь", "exampleTranslation": "The telephone is loud."}]},
+            {"word": "gur-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "quiet", "example": "Gur-re ei taika van-ch.", "etymology": "the opposite of loud", "exampleTranslation": "It is quiet and peaceful."}]},
+            {"word": "ha", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "QUESTION WORD", "explanation": "how", "example": "Ha et-ä hoi~tom bun-ë lar-ch li?", "etymology": "borrowed from Chinese 何", "exampleTranslation": "How do you eat one hundred fruits?"}]},
+            {"word": "ha~shai", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "QUESTION WORD", "explanation": "what, who", "example": "Hau ha~shai van-ch li?", "etymology": "how-thing", "exampleTranslation": "What is this?"}]},
+            {"word": "ha~thes", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "QUESTION WORD", "explanation": "where", "example": "Ha~thes et-ä engi-ch li?", "etymology": "how-place", "exampleTranslation": "Where do you belong?"}]},
+            {"word": "ha~zhan", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "QUESTION WORD", "explanation": "when", "example": "Ha~zhan et-ä ak get-sh li?", "etymology": "how-time", "exampleTranslation": "When will you go here?"}]},
+            {"word": "hada", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to save", "example": "At-ä sian-ä hada-ch.", "etymology": "borrowed from Mongolian хадгалах", "exampleTranslation": "I am saving money."}]},
+            {"word": "hagi", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to start / to birth / birth / to live / life", "example": "At-ä tamin hagi-ch.", "etymology": "borrowed from Japanese 始 (hajime)", "exampleTranslation": "I start to practice."}]},
+            {"word": "hagi-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to end / to die / death / end / finally / final", "example": "Et-ä lan hagi-re-ä get-re.", "etymology": "the opposite of hagi", "exampleTranslation": "You do not go to a limit (end)."}]},
+            {"word": "har", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to stick", "example": "Lafi-ä hune-ä ho har-ch.", "etymology": "borrowed from Japanese 貼る (haru)", "exampleTranslation": "The sign sticks on the building."}]},
+            {"word": "hau", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "PRONOUN", "explanation": "this, these", "example": "Hau-ä bun-ä van-ch.", "etymology": "", "exampleTranslation": "This is a fruit."}]},
+            {"word": "hefon", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "heaven", "example": "Fu ia ot-ë lan hefon van-ch.", "etymology": "borrowed from Old English heofon", "exampleTranslation": "Our Father who art in heaven."}]},
+            {"word": "hek", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "eight / 8", "example": "At-ä hek bun-ë bedo-ch.", "etymology": "borrowed from PIE h₃eḱtow", "exampleTranslation": "I have eight fruits."}]},
+            {"word": "heu", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "PRONOUN", "explanation": "that, those", "example": "Heu-ä bun-ä van-ch.", "etymology": "", "exampleTranslation": "That is a fruit."}]},
+            {"word": "ho", "uses": [{"hasBadge": false, "badgeText": "", "type": "PREPOSITION", "explanation": "on, upon", "example": "Bun-ë ho gebis-ä ver-zh.", "etymology": "borrowed from Sesotho ho", "exampleTranslation": "I saw fruits on the furniture."}]},
+            {"word": "hoka", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "stone", "example": "At-ä hoka-ä ver-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "I see a stone."}]},
+            {"word": "hoi", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "one / 1", "example": "At-ä hoi bun-ä bedo-ch.", "etymology": "borrowed from PIE Hoi-k(ʷ)o", "exampleTranslation": "I have one fruit."}]},
+            {"word": "holu", "uses": [{"hasBadge": false, "badgeText": "", "type": "PREPOSITION", "explanation": "like, similar to", "example": "Fun-ä, holu lan hefon.", "etymology": "borrowed from Kannada ಹೋಲುತ್ತದೆ (hōlattade)", "exampleTranslation": "On earth, as it is in heaven."}]},
+            {"word": "hune", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "building", "example": "Ot-ë hune-ë fatin-ch.", "etymology": "borrowed from Estonian hoone", "exampleTranslation": "They make buildings."}]},
+            {"word": "ia", "uses": [{"hasBadge": false, "badgeText": "", "type": "CONJUNCTION", "explanation": "of (genitive marker)", "example": "Heu sar-ä ia hun-ä van-ch.", "etymology": "", "exampleTranslation": "This is the bone of the dog."}]},
+            {"word": "ian", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "dollar", "example": "At-ä pen~tom ian-ë bedo-ch.", "etymology": "borrowed from Chinese 元", "exampleTranslation": "I have fifty dollars."}]},
+            {"word": "ibog", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "screen", "example": "Madas~sag-ä ibog ver-ch.", "etymology": "borrowed from Yoruba iboju", "exampleTranslation": "The student looks at the screen."}]},
+            {"word": "ie", "uses": [{"hasBadge": false, "badgeText": "", "type": "EXCLAMATION", "explanation": "yeah / right / huh / oh", "example": "Ie, at-ä boto-ch.", "etymology": "", "exampleTranslation": "Yeah, I know."}]},
+            {"word": "ien", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "new", "example": "At-ä ien get~miha-ä bedo-ch.", "etymology": "borrowed from Estonian yeni", "exampleTranslation": "I have a new car."}]},
+            {"word": "iil", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "skin", "example": "Kutu-ä iil-ä puse van-ch.", "etymology": "borrowed from Arabic جلد (jild)", "exampleTranslation": "The cat's skin is smooth/polished."}]},
+            {"word": "iso", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to join", "example": "At-ä madas iso-ch.", "etymology": "borrowed from Igbo iso", "exampleTranslation": "I am joining the school."}]},
+            {"word": "iu", "uses": [{"hasBadge": false, "badgeText": "", "type": "CONJUNCTION", "explanation": "but", "example": "At-ë bun-ë bedo-zh mogu, iu et-ä bun-ë lar-zh.", "etymology": "", "exampleTranslation": "We could have had fruits, but you ate the fruits."}]},
+            {"word": "kaba", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "friend", "example": "At-ä tam kaba-ë bedo-ch.", "etymology": "borrowed from Iban kaban", "exampleTranslation": "I have many friends."}]},
+            {"word": "kaba-re", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "enemy", "example": "Ot-ä kaba-re-ä ia at-ä van-ch.", "etymology": "the opposite of friend", "exampleTranslation": "He/she/it is my enemy."}]},
+            {"word": "kalid", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to switch / switch", "example": "At-ä kalid-ä ver-ch.", "etymology": "borrowed from Tajik калид", "exampleTranslation": "I see the switch."}]},
+            {"word": "kam", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "aware", "example": "Kam-re cha van-ch.", "etymology": "borrowed from Wolof xam", "exampleTranslation": "Being unaware now."}]},
+            {"word": "kan", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "ear", "example": "Kutu-ä kan-ë bedo-ch.", "etymology": "borrowed from Assamese காণ", "exampleTranslation": "The cat has ears."}]},
+            {"word": "kas", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "sad", "example": "At-ä kas ere-ch.", "etymology": "borrowed from Cebuano kasubo", "exampleTranslation": "I feel sad."}]},
+            {"word": "kas-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "happy", "example": "At-ä kas-re van-ch.", "etymology": "the opposite of sad", "exampleTranslation": "I am happy."}]},
+            {"word": "kasa", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "coarse, rough", "example": "Kasa~hoka-ä van-ch.", "etymology": "borrowed from Iban kasar", "exampleTranslation": "It is cobblestone (rough stone)."}]},
+            {"word": "kasa~hoka", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "cobblestone", "example": "At-ä kasa~hoka ver-zh.", "etymology": "Coarse~stone", "exampleTranslation": "I saw cobblestone."}]},
+            {"word": "kato", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to excel / to surpass / to exceed", "example": "At-ä et-ä ia ganu tag kato-ch.", "etymology": "borrowed from Acholi kato", "exampleTranslation": "I surpass your previous day."}]},
+            {"word": "ke", "uses": [{"hasBadge": false, "badgeText": "", "type": "CONJUNCTION", "explanation": "than", "example": "Kutu-ë ke hun-ë amal di van.", "etymology": "borrowed from Amharic ከ", "exampleTranslation": "Cats are better than dogs."}]},
+            {"word": "kel", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to play", "example": "Pien-re~sag-ä kel-ch.", "etymology": "borrowed from Hindi खेल (khel)", "exampleTranslation": "The kid is playing."}]},
+            {"word": "ken", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "cousin", "example": "At-ä ken-ä madas~sag van-ch.", "etymology": "borrowed from Breton kenderv", "exampleTranslation": "My cousin is a student."}]},
+            {"word": "keta", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "book", "example": "At-ä keta-ä ver-ch.", "etymology": "borrowed from Baluchi keta", "exampleTranslation": "I see a book."}]},
+            {"word": "ki", "uses": [{"hasBadge": false, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "word, language", "example": "Hau ki-ä di van-ch.", "etymology": "inherent root for communication", "exampleTranslation": "This word is good."}, {"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to speak, talk, input", "example": "At-ä Sag~ki ki-ch.", "etymology": "", "exampleTranslation": "I speak Sag~ki."}]},
+            {"word": "ki-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to output / to hear / to receive", "example": "At-ä tin~get~ki~miha ki-re-ch.", "etymology": "the opposite of to talk", "exampleTranslation": "I hear the aeroplane announcement."}]},
+            {"word": "ki-re~miha", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "speaker", "example": "Ki-re~miha-ä gur van-ch.", "etymology": "hear~machine (the opposite of talk machine)", "exampleTranslation": "The speaker is loud."}]},
+            {"word": "ki~keta", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "dictionary", "example": "Hau ki~keta-ä di van-ch.", "etymology": "speak~book", "exampleTranslation": "This dictionary is good."}]},
+            {"word": "ki~miha", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "telephone", "example": "At-ä ki~miha-ä uso-ch.", "etymology": "speak~machine", "exampleTranslation": "I am using the telephone."}]},
+            {"word": "kigo", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "block, cube", "example": "At-ä kigo-ä ver-ch.", "etymology": "borrowed from Kikongo kigonsa", "exampleTranslation": "I see the block."}]},
+            {"word": "kodi", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "version", "example": "Hau kodi-ä ien van-ch.", "etymology": "borrowed from Acholi la kodi", "exampleTranslation": "This version is new."}]},
+            {"word": "kuak", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "quark", "example": "Puto-ä kuak-ë bedo-ch.", "etymology": "borrowed from English quark", "exampleTranslation": "A proton has quarks."}]},
+            {"word": "kuar", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "leaf", "example": "At-ä kuar-ä ver-ch.", "etymology": "borrowed from Azerbaijani yarpaq / kuar", "exampleTranslation": "I see a leaf."}]},
+            {"word": "kuar~pi", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "tea", "example": "Et-ë pi uo kuar~pi bedo mogu.", "etymology": "leaf~water", "exampleTranslation": "You all can have water or tea."}]},
+            {"word": "kulu", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to load / to insert", "example": "At-ä aso-ä kulu-ch.", "etymology": "borrowed from Afar culus", "exampleTranslation": "I load the content."}]},
+            {"word": "kun", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to happen", "example": "Sa~sa-re kun-ch.", "etymology": "borrowed from Thai ขึ้น (khun)", "exampleTranslation": "Difficulty happens."}]},
+            {"word": "kusa", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADVERB", "explanation": "almost", "example": "Ot-ä kusa re sian bedo-zh.", "etymology": "borrowed from Hausa kusa", "exampleTranslation": "He/she/it almost had no money."}]},
+            {"word": "kutu", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "cat", "example": "Kutu-ë ke hun-ë amal di van.", "etymology": "borrowed from Icelandic köttur", "exampleTranslation": "Cats are better than dogs."}]},
+            {"word": "lafi", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "sign", "example": "Lafi-ä hune ho har-ch.", "etymology": "borrowed from Arabic لافتة (lafita)", "exampleTranslation": "The sign is stuck on the building."}]},
+            {"word": "lagi", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADVERB", "explanation": "again, once more", "example": "At-ä lagi-uso tin~tin~miha fatin-zh.", "etymology": "borrowed from Batak Karo lagi", "exampleTranslation": "I made a reusable spaceship."}]},
+            {"word": "lagi~hagi", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to reset / to restart", "example": "At-ä miha-ä lagi~hagi-ch.", "etymology": "start~again", "exampleTranslation": "I restart the machine."}]},
+            {"word": "lah", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to eat", "example": "At-ä alime-ä lah-ch.", "etymology": "borrowed from Hebrew לאכול", "exampleTranslation": "I eat food."}]},
+            {"word": "las", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to lock", "example": "At-ä hune-ä las-ch.", "etymology": "borrowed from Danish låse", "exampleTranslation": "I lock the building."}]},
+            {"word": "lasad", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "whale", "example": "Lasad-ä pi lan van-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "The whale is in the water."}]},
+            {"word": "ledi", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "owl", "example": "Ledi-ä tag-re lan tin~get-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "The owl flies at night."}]},
+            {"word": "leke", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "spot", "example": "Kutu-ä duo leke-ë bedo-ch.", "etymology": "borrowed from Turkish leke", "exampleTranslation": "The cat has two spots."}]},
+            {"word": "leke~hoka", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "granite", "example": "Hune-ä leke~hoka bo fatin-zh.", "etymology": "spot~stone", "exampleTranslation": "The building was made from granite."}]},
+            {"word": "lela", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "other", "example": "Ke lela sag-ë di van-ch.", "etymology": "borrowed from Amharic léла (lela)", "exampleTranslation": "Better than other people."}]},
+            {"word": "li", "uses": [{"hasBadge": false, "badgeText": "", "type": "PARTICLE", "explanation": "question particle", "example": "Ha~zhan et-ä ak get-sh li?", "etymology": "", "exampleTranslation": "When will you get here?"}]},
+            {"word": "lin", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "zero / 0", "example": "At-ä lin bun-ë bedo-ch.", "etymology": "borrowed from Chinese 零", "exampleTranslation": "I have zero fruits."}]},
+            {"word": "luf", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "air", "example": "Luf-ä chau van-ch.", "etymology": "borrowed from German Luft", "exampleTranslation": "The air is hot."}]},
+            {"word": "lut", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to fight / fight", "example": "At-ä lut-ch roia-ë ia at.", "etymology": "borrowed from Tetum luta", "exampleTranslation": "I fight with my dreams."}]},
+            {"word": "madas", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "school", "example": "At-ä madas gu get-ch.", "etymology": "borrowed from Arabic madas", "exampleTranslation": "I go to school."}]},
+            {"word": "madas~sag", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "student", "example": "Madas~sag-ä tamin-ch.", "etymology": "school~person", "exampleTranslation": "The student practices."}]},
+            {"word": "mai", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "front", "example": "Mai dibo-ä ver-ch.", "etymology": "", "exampleTranslation": "I see my front hand."}]},
+            {"word": "mai-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "back", "example": "Mai-re dibo-ä ver-ch.", "etymology": "the opposite of front", "exampleTranslation": "I see my back hand."}]},
+            {"word": "masal", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "light", "example": "Ser-ë masal fatin-ch.", "etymology": "borrowed from Santali marsal", "exampleTranslation": "The stars make light."}]},
+            {"word": "miha", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "machine", "example": "At-ä miha-ä bedo-ch.", "etymology": "borrowed from Greek μηχανή", "exampleTranslation": "I have a machine."}]},
+            {"word": "mis", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to buy / to shop", "example": "At-ä bun-ë mis-zh.", "etymology": "borrowed from Japanese 店 (mise)", "exampleTranslation": "I bought fruits."}]},
+            {"word": "mis~hune", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "market", "example": "Kusa at-ë, mis~hune-ä van-ch.", "etymology": "buy~building", "exampleTranslation": "Near us, there is a market."}]},
+            {"word": "monem", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to remember", "example": "Ot-ä to monem-ch-re.", "etymology": "borrowed from Meadow Mari мондеem", "exampleTranslation": "She always doesn't remember."}]},
+            {"word": "mogu", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "possible / can / could", "example": "Ua at turo mogu-ch.", "etymology": "borrowed from Serbian могуће", "exampleTranslation": "So I can fall asleep."}]},
+            {"word": "mu", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "mother", "example": "At-ä mu-ä suka-ch.", "etymology": "borrowed from Chinese 母", "exampleTranslation": "I love my mother."}]},
+            {"word": "mu~fu", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "grandfather (maternal)", "example": "Mu~fu-ä ak get-ch.", "etymology": "mother~father", "exampleTranslation": "Maternal grandfather is coming here."}]},
+            {"word": "mu~mu", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "grandmother (maternal)", "example": "Mu~mu-ä alime fatin-ch.", "etymology": "mother~mother", "exampleTranslation": "Maternal grandmother is making food."}]},
+            {"word": "mune", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to progress / progression", "example": "At-ä tide safa lan mus mune-ch.", "etymology": "borrowed from Tamil முன்னேற்றம்", "exampleTranslation": "I continuously progress in true success."}]},
+            {"word": "mus", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "continuous, ongoing", "example": "At-ä mus tamin er-ch.", "etymology": "borrowed from Sindhi مسلسل", "exampleTranslation": "I do continuous practice."}]},
+            {"word": "nak", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "nose", "example": "Hun-ä nak-ä bedo-ch.", "etymology": "borrowed from Bangla nak", "exampleTranslation": "The dog has a nose."}]},
+            {"word": "naler", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "boat", "example": "At-ä naler-ä bedo-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "I have a boat."}]},
+            {"word": "nana", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "flint", "example": "At-ä nana-ä ver-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "I see flint."}]},
+            {"word": "neu", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "nine / 9", "example": "At-ä neu bun-ë bedo-ch.", "etymology": "borrowed from PIE (h₁)newn̥", "exampleTranslation": "I have nine fruits."}]},
+            {"word": "nin", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "name", "example": "Nin-ä ia et-ä pavit van-ch.", "etymology": "Indo-European average", "exampleTranslation": "Hallowed be thy name."}]},
+            {"word": "nonom", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "status", "example": "At-ä tusam nonom bedo-ch.", "etymology": "borrowed from Chuukese nonnomwun", "exampleTranslation": "I have famous status."}]},
+            {"word": "notas", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "grade, mark", "example": "At-ä di-re notas-ë bedo-ch.", "etymology": "borrowed from Brazilian Portuguese notes", "exampleTranslation": "I have bad grades."}]},
+            {"word": "nuan", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "month", "example": "Sal-ä hoi~dem~ei~duo nuan-ë bedo-ch.", "etymology": "borrowed from Baoulé nuan", "exampleTranslation": "A year has 12 months."}]},
+            {"word": "nuto", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "neutron", "example": "At-ä nuto-ä ver-ch.", "etymology": "borrowed from Hindi न्यूट्रॉन", "exampleTranslation": "I see a neutron."}]},
+            {"word": "oba", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "aunt", "example": "At-ä ia oba-ä madas lan er-ch.", "etymology": "borrowed from Japanese 叔母 (oba)", "exampleTranslation": "My aunt works in a school."}]},
+            {"word": "obur", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to pass", "example": "At-ä notas-ë gu obur-ch.", "etymology": "borrowed from Persian عبor", "exampleTranslation": "I pass the grades."}]},
+            {"word": "obur-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to fail", "example": "Ot-ä tam zhan obur-re-zh.", "etymology": "the opposite of obur", "exampleTranslation": "He failed many times."}]},
+            {"word": "ok", "uses": [{"hasBadge": false, "badgeText": "", "type": "EXCLAMATION", "explanation": "ok", "example": "Ok, at-ä get-ch.", "etymology": "", "exampleTranslation": "Ok, I am going."}]},
+            {"word": "onsa", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to explode", "example": "Tin~tin~miha-ë lan tin onsa-zh.", "etymology": "borrowed from Pangasinan onsabog", "exampleTranslation": "Spaceships exploded in the sky."}]},
+            {"word": "ot", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "PRONOUN", "explanation": "third person marker (he, she, they, it)", "example": "Ot-ä bun-ä ver-zh.", "etymology": "", "exampleTranslation": "He/she/it saw (a) fruit."}]},
+            {"word": "pasa", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "passport", "example": "At-ä pasa-ä bedo-ch.", "etymology": "borrowed from English passport", "exampleTranslation": "I have a passport."}]},
+            {"word": "pavit", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "holy", "example": "Ninin-ä ia et-ä pavit van-ch.", "etymology": "borrowed from Awadhi पवित्र", "exampleTranslation": "Hallowed be thy name."}]},
+            {"word": "pen", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "five / 5", "example": "At-ä pen bun-ë bedo-ch.", "etymology": "borrowed from PIE penkʷe", "exampleTranslation": "I have five fruits."}]},
+            {"word": "per", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to need", "example": "At-ä pi-ä per-ch.", "etymology": "borrowed from Betawi perlu", "exampleTranslation": "I need water."}]},
+            {"word": "pi", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "water", "example": "At-ä pi-ä lah-ch.", "etymology": "borrowed from Acholi pi", "exampleTranslation": "I drink water."}]},
+            {"word": "pi~hoka", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "concrete", "example": "Fun-ä pi~hoka ma rop-ch.", "etymology": "water~stone", "exampleTranslation": "The land is filled with concrete."}]},
+            {"word": "pien", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "big, old", "example": "Tag-ä pien van-ch.", "etymology": "inherent semantic root for scale/age", "exampleTranslation": "The day is old."}]},
+            {"word": "pien-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "small, young", "example": "At-ä pien-re suek-ä ver-ch.", "etymology": "the opposite of big", "exampleTranslation": "I see a small mouse."}]},
+            {"word": "pien-re~hune", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "tower, skyscraper", "example": "Pien-re~hune-ä tin gu get-ch.", "etymology": "big~building", "exampleTranslation": "The skyscraper goes to the sky."}]},
+            {"word": "pien-re~sag", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "kid, child", "example": "Ot-ä pien-re~sag-ä van-ch.", "etymology": "the opposite of old~person", "exampleTranslation": "He/she/it is a kid."}]},
+            {"word": "pien~tin~get", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to hover", "example": "Pituk-ä fun ho pien~tin~get-ch.", "etymology": "small sky go", "exampleTranslation": "The bird is hovering over the ground."}]},
+            {"word": "pituk", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "bird", "example": "Pituk-ä tin~get-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "The bird flies."}]},
+            {"word": "po", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADVERB", "explanation": "please", "example": "Po, at-ë fer-ch.", "etymology": "borrowed from Thai โปรด (prot)", "exampleTranslation": "Please, forgive us."}]},
+            {"word": "potun", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "normal, ordinary", "example": "At-ë potun sag-ë van-ch.", "etymology": "borrowed from Cantonese 普通 (pou tung)", "exampleTranslation": "We are ordinary people."}]},
+            {"word": "puse", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to polish / polished", "example": "At-ä hoka-ä puse-ch.", "etymology": "borrowed from Norwegian pusse", "exampleTranslation": "I am polishing the stone."}]},
+            {"word": "puto", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "proton", "example": "At-ä puto-ä ver-ch.", "etymology": "borrowed from Hindi प्रोटॉन", "exampleTranslation": "I see a proton."}]},
+            {"word": "re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "empty", "example": "Mis~hune-ä re van-ch.", "etymology": "borrowed from Catalan res", "exampleTranslation": "The market is empty."}, {"hasBadge": false, "badgeText": "", "type": "ADVERB", "explanation": "never / no", "example": "Ot-ä re ver-zh.", "etymology": "borrowed from Catalan res", "exampleTranslation": "He/she/it never saw."}, {"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "nothing", "example": "Re tide van-ch.", "etymology": "borrowed from Catalan res", "exampleTranslation": "Nothing is real."}]},
+            {"word": "redim", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "flamingo", "example": "Redim-ä pi~hoka ho van-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "The flamingo is on concrete."}]},
+            {"word": "roia", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "dream", "example": "At-ä roia-ä bedo-ch.", "etymology": "borrowed from Persian רוยา", "exampleTranslation": "I have a dream."}]},
+            {"word": "rop", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to cram / to fill / to crowd", "example": "Thus par-ë rop-ch.", "etymology": "borrowed from Dutch proppen", "exampleTranslation": "A thousand thoughts crowd."}]},
+            {"word": "sa", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "easy", "example": "Sag~ki sa van-ch.", "etymology": "borrowed from Tibetan སླ (sla)", "exampleTranslation": "Sag~ki is easy."}]},
+            {"word": "sa-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "hard, difficult", "example": "Tamin-ä sa-re van-ch.", "etymology": "the opposite of easy", "exampleTranslation": "Practice is hard."}]},
+            {"word": "sa~sa-re", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "difficulty", "example": "Sa~sa-re kun-ch.", "etymology": "easy~hard", "exampleTranslation": "Difficulty happens."}]},
+            {"word": "sa~uso", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "accessible", "example": "Hau hune-ä sa~uso van-ch.", "etymology": "easy~use", "exampleTranslation": "This building is accessible."}]},
+            {"word": "safa", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "success", "example": "At-ä tide safa lan mus mune-ch.", "etymology": "borrowed from Nepali सफलता", "exampleTranslation": "I continuously progress in true success."}]},
+            {"word": "sag", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "person, human", "example": "Sam sag-ë safa pana van-ch.", "etymology": "borrowed from Chechen стаг (stag)", "exampleTranslation": "Some people think success is rich."}]},
+            {"word": "sai", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "up", "example": "At-ä sai tin-ä ver-ch.", "etymology": "", "exampleTranslation": "I look up at the sky."}]},
+            {"word": "sai-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "down", "example": "At-ä sai-re fun-ä ver-ch.", "etymology": "the opposite of up", "exampleTranslation": "I look down at the ground."}]},
+            {"word": "sai~sai-re", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "column", "example": "At-ä sai~sai-re-ä ver-ch.", "etymology": "up~down", "exampleTranslation": "I see a column."}]},
+            {"word": "sal", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "year", "example": "Hau sal-ä di van-ch.", "etymology": "borrowed from Baluchi سال", "exampleTranslation": "This year is good."}]},
+            {"word": "sala", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to select", "example": "At-ä verif~gom-ë sala-ch.", "etymology": "borrowed from Dombe sala", "exampleTranslation": "I select checkboxes."}]},
+            {"word": "sam", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "some", "example": "Sam sag-ë kutu-ë suka.", "etymology": "", "exampleTranslation": "Some people like cats."}]},
+            {"word": "sapin", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "example", "example": "Ak sapin-ä van-ch.", "etymology": "borrowed from Fulani sappinol", "exampleTranslation": "Here is an example."}]},
+            {"word": "sar", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "bone", "example": "Heu sar-ä ia hun-ä van-ch.", "etymology": "borrowed from Kalaallisut saarngit", "exampleTranslation": "This is the bone of the dog."}]},
+            {"word": "sep", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "seven / 7", "example": "At-ä sep bun-ë bedo-ch.", "etymology": "borrowed from PIE septm̥", "exampleTranslation": "I have seven fruits."}]},
+            {"word": "ser", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "star", "example": "Pi~hoka ia ser-ë ver-ch par-ch.", "etymology": "borrowed from Welsh seren", "exampleTranslation": "I think I see concrete stars."}]},
+            {"word": "shai", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "thing", "example": "Ot-ä anes shai-ë ver-ch.", "etymology": "borrowed from Arabic شيء (shay')", "exampleTranslation": "They see different things."}]},
+            {"word": "sho", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to say", "example": "Ernest Hemingway sho, 'Sag-ë...'", "etymology": "borrowed from Mandarin 說 (shuō)", "exampleTranslation": "Ernest Hemingway says, 'People...'"}]},
+            {"word": "sian", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "money", "example": "At-ä sian bedo-ch-re.", "etymology": "borrowed from Chinese 錢", "exampleTranslation": "I do not have money."}]},
+            {"word": "sian~hune", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "bank", "example": "Gu sian~hune at-ä sian get-ch.", "etymology": "money~building", "exampleTranslation": "I go to the bank for money."}]},
+            {"word": "sil", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "eye", "example": "At-ä duo sil-ë bedo-ch.", "etymology": "borrowed from Estonian silm", "exampleTranslation": "I have two eyes."}]},
+            {"word": "sima", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "week", "example": "Hau sima-ä adigi get-zh.", "etymology": "borrowed from Aymara simana", "exampleTranslation": "This week went by fast."}]},
+            {"word": "soho", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "shrimp", "example": "At-ä soho-ë lah-zh.", "etymology": "from Anonymous K14", "exampleTranslation": "I ate shrimps."}]},
+            {"word": "son", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "son", "example": "Son-ä fu-ä ver-ch.", "etymology": "borrowed from English son", "exampleTranslation": "The son sees the father."}]},
+            {"word": "su", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "sister", "example": "Su-ä kaba-ä ver-ch.", "etymology": "borrowed from Chinese 姊 (zǐ)", "exampleTranslation": "Sister sees a friend."}]},
+            {"word": "suek", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "mouse", "example": "Suek-ä gen lan get-ch.", "etymology": "squeaking onomatopoeia", "exampleTranslation": "The mouse moves in the grass."}]},
+            {"word": "suka", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to like", "example": "Sam sag-ë kutu-ë suka.", "etymology": "borrowed from Malay suka", "exampleTranslation": "Some people like cats."}]},
+            {"word": "suka~suka", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to love", "example": "At-ä et-ä suka~suka-ch!", "etymology": "like + like", "exampleTranslation": "I love you!"}]},
+            {"word": "suka~suka~har", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to marry", "example": "Ot-ë suka~suka~har-zh.", "etymology": "love + stick", "exampleTranslation": "They married."}]},
+            {"word": "suli", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "list", "example": "At-ä suli-ä ver-ch.", "etymology": "borrowed from Yucatec Maya tsoolil", "exampleTranslation": "I see the list."}]},
+            {"word": "tag", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "day", "example": "Tag-ä pien van-ch.", "etymology": "borrowed from German tag", "exampleTranslation": "The day is old."}]},
+            {"word": "tag-re", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "night", "example": "At-ä tag-re-ä turo-ch.", "etymology": "the opposite of day", "exampleTranslation": "I sleep during the night."}]},
+            {"word": "taika", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "peace / peaceful", "example": "Gur-re ei taika van-ch.", "etymology": "borrowed from Lithuanian taika", "exampleTranslation": "It is quiet and peaceful."}]},
+            {"word": "tam", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "many / most / maybe", "example": "Tam sag-ë roia-ë ia ot par-ch.", "etymology": "borrowed from Hakka Chin tampi", "exampleTranslation": "Many people think of their dreams."}]},
+            {"word": "tamin", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to practise", "example": "Ot-ä to tag mus tamin.", "etymology": "borrowed from Persian تمرین", "exampleTranslation": "He practices continuously every day."}]},
+            {"word": "tanas", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "metal", "example": "Miha-ä tanas bo fatin-zh.", "etymology": "from Anonymous K14", "exampleTranslation": "The machine was built from metal."}]},
+            {"word": "tari", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "emergency", "example": "Av chat tari-ä van-ch.", "etymology": "borrowed from Arabic طارئ", "exampleTranslation": "There is an emergency now."}]},
+            {"word": "tei", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "three / 3", "example": "At-ä tei bun-ë bedo-ch.", "etymology": "borrowed from PIE tri", "exampleTranslation": "I have three fruits."}]},
+            {"word": "thes", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "place", "example": "To thes ver-ch.", "etymology": "borrowed from Greek θέση", "exampleTranslation": "Seeing every place."}]},
+            {"word": "thun", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "short", "example": "At-ä thun kigo-ä bedo-ch.", "etymology": "borrowed from Dzongkha ཐུང་ཀུ་ (thungku)", "exampleTranslation": "I have a short block."}]},
+            {"word": "thus", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "thousand / 1000", "example": "Thus par-ë rop-ch.", "etymology": "borrowed from Old English þūsend", "exampleTranslation": "A thousand thoughts crowd."}]},
+            {"word": "tin", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "sky", "example": "At-ä pi~hoka ia tin cha ver-ch.", "etymology": "borrowed from Cantonese 天 (tin)", "exampleTranslation": "I am staring at a concrete sky now."}]},
+            {"word": "tin-get~miha", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "aeroplane", "example": "At-ä tin-get~miha-ä ver-ch.", "etymology": "fly~machine", "exampleTranslation": "I see an aeroplane."}]},
+            {"word": "tin~get", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to fly", "example": "Pituk-ä tin~get-ch.", "etymology": "sky go", "exampleTranslation": "The bird flies."}]},
+            {"word": "tin~get~ki~miha", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "aeroplane announcement machine", "example": "Tin~get~ki~miha-ä gur van-ch.", "etymology": "fly~hear~machine", "exampleTranslation": "The aeroplane announcement machine is loud."}]},
+            {"word": "tin~get~mis~sag", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "pilot", "example": "Tin~get~mis~sag-ä tin-get~miha-ä er-ch.", "etymology": "sky~go~machine~person", "exampleTranslation": "The pilot operates the aeroplane."}]},
+            {"word": "tin~get~sag", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "pilot (contracted)", "example": "Tin~get~sag-ä tin-get~miha-ä er-ch.", "etymology": "sky~go~person", "exampleTranslation": "The pilot operates the aeroplane."}]},
+            {"word": "tin~tin", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "space (outer space)", "example": "Tin~tin-ä re empty van-ch.", "etymology": "evolution of sky", "exampleTranslation": "Outer space is empty."}]},
+            {"word": "tin~tin~get~miha", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "spaceship, rocket", "example": "Ot-ä lagi-uso tin~tin~get~miha fatin-zh.", "etymology": "space~go~machine", "exampleTranslation": "He made a reusable spaceship."}]},
+            {"word": "tin~tin~miha", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "spaceship (contracted)", "example": "At-ä tin~tin~miha-ä ver-ch.", "etymology": "space~machine", "exampleTranslation": "I see a spaceship."}]},
+            {"word": "to", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "everything / every / all / yes / always / full", "example": "To tag et-ä ia ganu tag kato.", "etymology": "borrowed from Seselwa Creole French tou", "exampleTranslation": "Every day you surpass your previous day."}]},
+            {"word": "tom", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "hundred / 100", "example": "At-ä tom bun-ë bedo-ch.", "etymology": "borrowed from PIE ḱm̥tom", "exampleTranslation": "I have one hundred fruits."}]},
+            {"word": "trua", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to believe", "example": "Et-ä trua-sh, safa bedo-sh!", "etymology": "borrowed from Icelandic trúa", "exampleTranslation": "You will believe, you will succeed!"}]},
+            {"word": "turo", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to sleep / to tire", "example": "Ua at-ä turo-ch-re.", "etymology": "borrowed from Bikol turog", "exampleTranslation": "So I cannot fall asleep."}]},
+            {"word": "turo-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to wake, awaken", "example": "At-ä turo-re-zh.", "etymology": "the opposite of sleep", "exampleTranslation": "I woke up."}]},
+            {"word": "ua", "uses": [{"hasBadge": false, "badgeText": "", "type": "CONJUNCTION", "explanation": "so", "example": "Thus par-ë rop-ch, ua at-ä turo-ch-re.", "etymology": "borrowed from Chinese 于 (yú) or related particles", "exampleTranslation": "A thousand thoughts crowd, so I cannot sleep."}]},
+            {"word": "ubu", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "technology", "example": "Elon Musk ubu mune-zh.", "etymology": "borrowed from Xhosa ubuchwepheshe", "exampleTranslation": "Elon Musk progressed technology."}]},
+            {"word": "uek", "uses": [{"hasBadge": false, "badgeText": "", "type": "NUMERAL", "explanation": "six / 6", "example": "At-ä uek bun-ë bedo-ch.", "etymology": "borrowed from PIE s(w)eḱs", "exampleTranslation": "I have six fruits."}]},
+            {"word": "uf", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "on (state)", "example": "Miha-ä uf van-ch.", "etymology": "borrowed from Hunsrik uf", "exampleTranslation": "The machine is on."}]},
+            {"word": "uf-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "ADJECTIVE", "explanation": "off (state)", "example": "Miha-ä uf-re van-ch.", "etymology": "the opposite of on", "exampleTranslation": "The machine is off."}]},
+            {"word": "uf~uf-re", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to toggle", "example": "Gom-ä uf~uf-re!", "etymology": "on~off", "exampleTranslation": "Toggle the button!"}]},
+            {"word": "unan", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "prawn", "example": "At-ä unan-ë lah-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "I am eating prawns."}]},
+            {"word": "uo", "uses": [{"hasBadge": false, "badgeText": "", "type": "CONJUNCTION", "explanation": "or", "example": "Et-ë pi uo kuar~pi bedo mogu.", "etymology": "", "exampleTranslation": "You all can have water or tea."}]},
+            {"word": "ur", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "date", "example": "Ha ur van-ch li?", "etymology": "borrowed from Aymara uru", "exampleTranslation": "What is the date?"}]},
+            {"word": "uso", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to use", "example": "At-ä bar~suek uso-ch.", "etymology": "borrowed from Italian uso", "exampleTranslation": "I use the computer mouse."}]},
+            {"word": "van", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to be", "example": "Tag-ä pien van-ch.", "etymology": "borrowed from Hungarian van", "exampleTranslation": "The day is old."}]},
+            {"word": "ver", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to see / to stare at / look at", "example": "At-ä et ver-ch.", "etymology": "borrowed from Latin American Spanish ver", "exampleTranslation": "I look at you."}]},
+            {"word": "ver~ei~get~miha", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "TV / television", "example": "At-ë ver~ei~get~miha ver-ch.", "etymology": "see~and~move~machine", "exampleTranslation": "We are watching TV."}]},
+            {"word": "verif", "uses": [{"hasBadge": false, "badgeText": "", "type": "VERB", "explanation": "to verify", "example": "At-ä kodi-ä verif-zh.", "etymology": "borrowed from Venetian verifegar", "exampleTranslation": "I verified the version."}]},
+            {"word": "verif~gom", "uses": [{"hasBadge": true, "badgeText": "COUNTABLE", "type": "NOUN", "explanation": "checkbox", "example": "Madas~sag-ä ibog ho verif~gom-ë sala-ch.", "etymology": "verify~button", "exampleTranslation": "The student selects checkboxes on the screen."}]},
+            {"word": "zhan", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "time", "example": "Ot-ä tam zhan obur-re-zh.", "etymology": "borrowed from Hebrew זְמัן (zeman)", "exampleTranslation": "He failed many times."}]},
+            {"word": "zhar", "uses": [{"hasBadge": false, "badgeText": "", "type": "INTENSIFIER", "explanation": "extremely", "example": "Ot-ä zhar adigi tin~get-zh.", "etymology": "", "exampleTranslation": "It flew extremely fast."}]},
+            {"word": "zhunu", "uses": [{"hasBadge": true, "badgeText": "UNCOUNTABLE", "type": "NOUN", "explanation": "oil", "example": "At-ä zhunu-ä ver-ch.", "etymology": "from Anonymous K14", "exampleTranslation": "I see oil."}]}
+        ];
+
+        // Translation maps for interface selection languages
+        const translationDb = {
+            "de": {
+                "singular marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "Singular-Markierung (für zählbare Dinge, ausgenommen Flüssigkeiten, halbflüssige Stoffe und abstrakte Objekte)",
+                "I saw (a) fruit.": "Ich habe eine Frucht gesehen.",
+                "present tense / present continuous marker": "Präsens-Markierung (Gegenwart / Verlaufsform)",
+                "He/she/it belongs here.": "Er/sie/es gehört hierher.",
+                "plural marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "Plural-Markierung (für zählbare Dinge, ausgenommen Flüssigkeiten, halbflüssige Stoffe und abstrakte Objekte)",
+                "I saw fruits.": "Ich habe Früchte gesehen.",
+                "negation marker": "Verneinungs-Markierung",
+                "I didn't see a fruit.": "Ich habe keine Frucht gesehen.",
+                "future tense marker": "Futur-Markierung (Zukunft)",
+                "He/she/it will go here.": "Er/sie/es wird hierher gehen.",
+                "past tense marker": "Präteritum-Markierung (Vergangenheit)",
+                "He/she/it belonged here.": "Er/sie/es gehörte hierher.",
+                "shark": "Hai", "daughter": "Tochter", "fast, swift": "schnell, flink", "mouth": "Mund",
+                "to suggest / suggestion": "vorschlagen / Vorschlag", "food": "Essen, Nahrung", "hi": "hallo",
+                "more": "mehr", "different": "unterschiedlich, anders", "universe": "Universum", "content": "Inhalt",
+                "first person marker (I, we)": "Pronomen der 1. Person (ich, wir)", "also": "auch", "there": "dort",
+                "vegetable": "Gemüse", "electric, electricity": "elektrisch, Elektrizität", "cursor": "Cursor",
+                "computer mouse": "Computermaus", "to have / to possess": "haben / besitzen", "knife": "Messer",
+                "from": "von, aus", "to grow": "wachsen", "to know": "wissen, kennen", "brother": "Bruder",
+                "fruit": "Frucht", "now": "jetzt", "centre, middle": "Zentrum, Mitte", "uncle": "Onkel",
+                "hot": "heiß", "cold": "kalt", "China": "China", "left": "links", "right (direction)": "rechts (Richtung)",
+                "row": "Reihe", "ten / 10": "zehn / 10", "good, cool, nice": "gut, cool, nett", "bad, evil": "schlecht, böse",
+                "temptation": "Versuchung", "mistake, trespass": "Fehler, Vergehen", "hand": "Hand", "two / 2": "zwei / 2",
+                "and": "und", "because": "weil", "to do / to let": "tun, machen / lassen", "to feel": "fühlen",
+                "to wish / wish": "wünschen / Wunsch", "second person marker (you, you all)": "Pronomen der 2. Person (du, ihr)",
+                "bye": "tschüss", "to invent / to make": "erfinden / herstellen", "foot": "Fuß", "to forgive": "vergeben, verzeihen",
+                "to hurt": "weh tun, verletzen", "father": "Vater", "grandfather (paternal)": "Großvater (väterlicherseits)",
+                "grandmother (paternal)": "Großmutter (väterlicherseits)", "ground, land, earth, dirt": "Boden, Land, Erde, Schmutz",
+                "before": "vor, bevor", "to change": "ändern", "before (time/previous)": "vorher (Zeit/vorherig)",
+                "after": "nach, danach", "furniture": "Möbel", "grass": "Gras", "to go / to move": "gehen / bewegen",
+                "to stop": "anhalten, stoppen", "barrier": "Barriere, Hindernis", "car": "Auto", "driver": "Fahrer",
+                "driver (contracted)": "Fahrer (kurz)", "button": "Knopf, Taste", "god": "Gott", "four / 4": "vier / 4",
+                "republic": "Republik", "loud": "laut", "quiet": "leise, ruhig", "how": "wie", "what, who": "was, wer",
+                "where": "wo", "when": "wann", "to save": "sparen, sichern", "to start / to birth / birth / to live / life": "anfangen / gebären / Geburt / leben / Leben",
+                "to end / to die / death / end / finally / final": "enden / sterben / Tod / Ende / schließlich / final",
+                "to stick": "kleben, stecken", "this, these": "dieses, diese", "heaven": "Himmel", "eight / 8": "acht / 8",
+                "that, those": "jenes, jene", "on, upon": "auf", "stone": "Stein", "one / 1": "eins / 1",
+                "like, similar to": "wie, ähnlich wie", "building": "Gebäude", "of (genitive marker)": "von (Genitiv-Markierung)",
+                "dollar": "Dollar", "screen": "Bildschirm", "yeah / right / huh / oh": "ja / richtig / oh", "new": "neu",
+                "skin": "Haut", "to join": "beitreten", "but": "aber", "friend": "Freund", "enemy": "Feind",
+                "to switch / switch": "schalten / Schalter", "aware": "bewusst", "ear": "Ohr", "sad": "traurig",
+                "happy": "glücklich", "coarse, rough": "grob, rau", "cobblestone": "Kopfsteinpflaster", "to excel / to surpass / to exceed": "übertreffen / überragen",
+                "than": "als", "to play": "spielen", "cousin": "Cousin / Cousine", "book": "Buch", "word, language": "Wort, Sprache",
+                "to speak, talk, input": "sprechen, reden, eingeben", "to output / to hear / to receive": "ausgeben / hören / empfangen",
+                "speaker": "Lautsprecher", "dictionary": "Wörterbuch", "telephone": "Telefon", "block, cube": "Block, Würfel",
+                "version": "Version", "quark": "Quark", "leaf": "Blatt", "tea": "Tee", "to load / to insert": "laden / einfügen",
+                "to happen": "geschehen, passieren", "almost": "fast, beinahe", "cat": "Katze", "sign": "Schild, Zeichen",
+                "again, once more": "wieder, noch einmal", "to reset / to restart": "zurücksetzen / neu starten", "to eat": "essen",
+                "to lock": "schließen, sperren", "whale": "Wal", "owl": "Eule", "spot": "Fleck", "granite": "Granit",
+                "other": "andere", "question particle": "Fragepartikel", "zero / 0": "Null / 0", "air": "Luft",
+                "to fight / fight": "kämpfen / Kampf", "school": "Schule", "student": "Schüler, Student", "front": "Vorderseite",
+                "back": "Rückseite", "light": "Licht", "machine": "Maschine", "to buy / to shop": "kaufen / einkaufen",
+                "market": "Markt", "to remember": "sich erinnern", "possible / can / could": "möglich / können / könnte",
+                "mother": "Mutter", "grandfather (maternal)": "Großvater (mütterlicherseits)", "grandmother (maternal)": "Großmutter (mütterlicherseits)",
+                "to progress / progression": "fortschreiten / Fortschritt", "continuous, ongoing": "kontinuierlich, andauernd",
+                "nose": "Nase", "boat": "Boot", "flint": "Feuerstein", "nine / 9": "neun / 9", "name": "Name",
+                "status": "Status", "grade, mark": "Note, Zensur", "month": "Monat", "neutron": "Neutron",
+                "to pass": "bestehen", "to fail": "nicht bestehen, scheitern", "ok": "okay", "to explode": "explodieren",
+                "third person marker (he, she, they, it)": "Pronomen der 3. Person (er, sie, es, sie)", "passport": "Reisepass",
+                "holy": "heilig", "five / 5": "fünf / 5", "to need": "brauchen, benötigen", "water": "Wasser",
+                "concrete": "Beton", "big, old": "groß, alt", "small, young": "klein, jung", "tower, skyscraper": "Turm, Wolkenkratzer",
+                "kid, child": "Kind", "to hover": "schweben", "bird": "Vogel", "please": "bitte", "normal, ordinary": "normal, gewöhnlich",
+                "to polish / polished": "polieren / poliert", "proton": "Proton", "empty": "leer", "never / no": "nie / nein",
+                "nothing": "nichts", "flamingo": "Flamingo", "dream": "Traum", "to cram / to fill / to crowd": "vollstopfen / füllen",
+                "easy": "einfach, leicht", "hard": "schwer, schwierig", "difficulty": "Schwierigkeit", "accessible": "zugänglich",
+                "success": "Erfolg", "person, human": "Person, Mensch", "up": "oben", "down": "unten", "column": "Säule",
+                "year": "Jahr", "to select": "auswählen", "some": "einige", "example": "Beispiel", "bone": "Knochen",
+                "seven / 7": "sieben / 7", "star": "Stern", "thing": "Ding, Sache", "to say": "sagen", "money": "Geld",
+                "bank": "Bank", "eye": "Auge", "week": "Woche", "sister": "Schwester", "shrimp": "Garnele", "son": "Sohn",
+                "mouse": "Maus", "to like": "mögen", "to love": "lieben", "to marry": "heiraten", "list": "Liste",
+                "day": "Tag", "night": "Nacht", "peace / peaceful": "Frieden / friedlich", "many / most / maybe": "viele / meist / vielleicht",
+                "to practise": "üben", "metal": "Metall", "emergency": "Notfall", "three / 3": "drei / 3",
+                "place": "Ort, Platz", "short": "kurz", "thousand / 1000": "tausend / 1000", "sky": "Himmel",
+                "aeroplane": "Flugzeug", "to fly": "fliegen", "aeroplane announcement machine": "Flugzeug-Ansagegerät",
+                "pilot": "Pilot", "pilot (contracted)": "Pilot (kurz)", "space (outer space)": "Weltraum",
+                "spaceship, rocket": "Raumschiff, Rakete", "spaceship (contracted)": "Raumschiff (kurz)",
+                "everything / every / all / yes / always / full": "alles / jeder / ja / immer / voll", "hundred / 100": "hundert / 100",
+                "to believe": "glauben", "to sleep / to tire": "schlafen / ermüden", "to wake, awaken": "aufwachen",
+                "so": "so, also", "technology": "Technologie", "six / 6": "sechs / 6", "on (state)": "an (Zustand)",
+                "off (state)": "aus (Zustand)", "to toggle": "umschalten", "prawn": "Riesengarnele", "or": "oder",
+                "date": "Datum", "to use": "benutzen", "to be": "sein", "to see / to stare at / look at": "sehen / anstarren",
+                "TV / television": "Fernseher / Fernsehen", "to verify": "verifizieren", "checkbox": "Checkbox",
+                "time": "Zeit", "extremely": "äußerst, extrem", "oil": "Öl"
+            },
+            "it": {
+                "singular marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "marcatore singolare (usato per cose numerabili, escluse sostanze liquide, semiliquide e oggetti astratti)",
+                "I saw (a) fruit.": "Ho visto un frutto.",
+                "present tense / present continuous marker": "marcatore del tempo presente / presente continuo",
+                "He/she/it belongs here.": "Lui/lei/esso appartiene a questo posto.",
+                "plural marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "marcatore plurale (usato per cose numerabili, escluse sostanze liquide, semiliquide e oggetti astratti)",
+                "I saw fruits.": "Ho visto dei frutti.",
+                "negation marker": "marcatore di negazione",
+                "I didn't see a fruit.": "Non ho visto alcun frutto.",
+                "future tense marker": "marcatore del tempo futuro",
+                "He/she/it will go here.": "Lui/lei/esso andrà qui.",
+                "past tense marker": "marcatore del tempo passato",
+                "He/she/it belonged here.": "Lui/lei/esso apparteneva a questo posto.",
+                "shark": "squalo", "daughter": "figlia", "fast, swift": "veloce, rapido", "mouth": "bocca",
+                "to suggest / suggestion": "suggerire / suggerimento", "food": "cibo, alimento", "hi": "ciao",
+                "more": "più, altro", "different": "differente, diverso", "universe": "universo", "content": "contenuto",
+                "first person marker (I, we)": "pronome di prima persona (io, noi)", "also": "anche", "there": "lì, là",
+                "vegetable": "verdura", "electric, electricity": "elettrico, elettricità", "cursor": "cursore",
+                "computer mouse": "mouse del computer", "to have / to possess": "avere / possedere", "knife": "coltello",
+                "from": "da", "to grow": "crescere", "to know": "sapere, conoscere", "brother": "fratello",
+                "fruit": "frutto", "now": "ora, adesso", "centre, middle": "centro, mezzo", "uncle": "zio",
+                "hot": "caldo", "cold": "freddo", "China": "Cina", "left": "sinistra", "right (direction)": "destra (direzione)",
+                "row": "fila", "ten / 10": "dieci / 10", "good, cool, nice": "buono, bello, piacevole", "bad, evil": "cattivo, malvagio",
+                "temptation": "tentazione", "mistake, trespass": "errore, trasgressione", "hand": "mano", "two / 2": "due / 2",
+                "and": "e", "because": "perché", "to do / to let": "fare / lasciare", "to feel": "sentire, provare",
+                "to wish / wish": "desiderare / desiderio", "second person marker (you, you all)": "pronome di seconda persona (tu, voi)",
+                "bye": "ciao (congedo)", "to invent / to make": "inventare / fare", "foot": "piede", "to forgive": "perdonare",
+                "to hurt": "fare male, ferire", "father": "padre", "grandfather (paternal)": "nonno paterno",
+                "grandmother (paternal)": "nonna paterna", "ground, land, earth, dirt": "terra, suolo",
+                "before": "prima, prima di", "to change": "cambiare", "before (time/previous)": "precedente (tempo)",
+                "after": "dopo, in seguito", "furniture": "mobili", "grass": "erba", "to go / to move": "andare / muoversi",
+                "to stop": "fermarsi, bloccare", "barrier": "barriera", "car": "auto, macchina", "driver": "autista",
+                "driver (contracted)": "autista (contratto)", "button": "pulsante, bottone", "god": "dio", "four / 4": "quattro / 4",
+                "republic": "repubblica", "loud": "forte, rumoroso", "quiet": "silenzioso, calmo", "how": "come",
+                "what, who": "cosa, chi", "where": "dove", "when": "quando", "to save": "salvare, risparmiare",
+                "to start / to birth / birth / to live / life": "iniziare / nascere / nascita / vivere / vita",
+                "to end / to die / death / end / finally / final": "finire / morire / morte / fine / finalmente / finale",
+                "to stick": "attaccare", "this, these": "questo, questi", "heaven": "cielo, paradiso", "eight / 8": "otto / 8",
+                "that, those": "quello, quelli", "on, upon": "su, sopra", "stone": "pietra", "one / 1": "uno / 1",
+                "like, similar to": "come, simile a", "building": "edificio", "of (genitive marker)": "di (marcatore genitivo)",
+                "dollar": "dollaro", "screen": "schermo", "yeah / right / huh / oh": "sì / esatto / oh", "new": "nuovo",
+                "skin": "pelle", "to join": "unirsi", "but": "pero", "friend": "amico", "enemy": "nemico",
+                "to switch / switch": "cambiare / interruttore", "aware": "consapevole", "ear": "orecchio", "sad": "triste",
+                "happy": "felice", "coarse, rough": "ruvido, grezzo", "cobblestone": "ciottolo", "to excel / to surpass / to exceed": "eccellere / superare",
+                "than": "più di", "to play": "giocare", "cousin": "cugino", "book": "libro", "word, language": "parola, lingua",
+                "to speak, talk, input": "parlare, inserire", "to output / to hear / to receive": "ascoltare, ricevere",
+                "speaker": "altoparlante", "dictionary": "dizionario", "telephone": "telefono", "block, cube": "blocco, cubo",
+                "version": "versione", "quark": "quark", "leaf": "foglia", "tea": "tè", "to load / to insert": "caricare / inserire",
+                "to happen": "accadere", "almost": "quasi", "cat": "gatto", "sign": "segno, cartello",
+                "again, once more": "ancora, di nuovo", "to reset / to restart": "ripristinare / riavviare", "to eat": "mangiare",
+                "to lock": "bloccare", "whale": "balena", "owl": "gufo", "spot": "macchia", "granite": "granito",
+                "other": "altro", "question particle": "particella interrogativa", "zero / 0": "zero / 0", "air": "aria",
+                "to fight / fight": "combattere / lotta", "school": "scuola", "student": "studente", "front": "davanti",
+                "back": "dietro", "light": "luce", "machine": "macchina", "to buy / to shop": "comprare",
+                "market": "mercato", "to remember": "ricordare", "possible / can / could": "possibile / potere",
+                "mother": "madre", "grandfather (maternal)": "nonno materno", "grandmother (maternal)": "nonna materna",
+                "to progress / progression": "progredire / progresso", "continuous, ongoing": "continuo",
+                "nose": "naso", "boat": "barca", "flint": "selce", "nine / 9": "nove / 9", "name": "nombre",
+                "status": "stato, estatus", "grade, mark": "nota, qualificazione", "month": "mes", "neutron": "neutrón",
+                "to pass": "aprobar", "to fail": "reprobar, fallar", "ok": "ok", "to explode": "explotar",
+                "third person marker (he, she, they, it)": "pronombre de terza persona", "passport": "pasaporto",
+                "holy": "santo", "five / 5": "cinque / 5", "to need": "necesitar", "water": "agua",
+                "concrete": "calcestruzzo, cemento", "big, old": "grande, vecchio", "small, young": "piccolo, giovane",
+                "tower, skyscraper": "torre, grattacielo", "kid, child": "bambino", "to hover": "volar estatico",
+                "bird": "uccello", "please": "per favore", "normal, ordinary": "normale, ordinario",
+                "to polish / polished": "lucidare, pulire", "proton": "protone", "empty": "vuoto", "never / no": "mai / no",
+                "nothing": "nulla", "flamingo": "fenicottero", "dream": "sogno", "to cram / to fill / to crowd": "riempire, affollare",
+                "easy": "facile", "hard": "difficile, duro", "difficulty": "difficoltà", "accessible": "accessibile",
+                "success": "successo", "person, human": "persona, essere umano", "up": "su, sopra", "down": "giù, sotto", "column": "colonna",
+                "year": "anno", "to select": "selezionare", "some": "alcuni", "example": "esempio", "bone": "osso",
+                "seven / 7": "sette / 7", "star": "stella", "thing": "cosa", "to say": "dire", "money": "denaro, soldi",
+                "bank": "banca", "eye": "occhio", "week": "settimana", "sister": "sorella", "shrimp": "gamberetto", "son": "figlio",
+                "mouse": "topo", "to like": "piacere", "to love": "amare", "to marry": "sposarsi",
+                "list": "lista", "day": "giorno", "night": "notte", "peace / peaceful": "pace / pacifico", "many / most / maybe": "molti",
+                "to practise": "praticare, esercitarsi", "metal": "metallo", "emergency": "emergenza", "three / 3": "tre / 3",
+                "place": "luogo, posto", "short": "corto", "thousand / 1000": "mille / 1000", "sky": "cielo",
+                "aeroplane": "aereo", "to fly": "volare", "aeroplane announcement machine": "macchina di annunci in volo",
+                "pilot": "pilota", "pilot (contracted)": "pilota (contratto)", "space (outer space)": "spazio cosmico",
+                "spaceship, rocket": "nave spaziale, razzo", "spaceship (contracted)": "astronave",
+                "everything / every / all / yes / always / full": "tutto / ogni cosa", "hundred / 100": "cento / 100",
+                "to believe": "credere", "to sleep / to tire": "dormir", "to wake, awaken": "svegliarsi",
+                "so": "quindi, così", "technology": "tecnologia", "six / 6": "sei / 6", "on (state)": "acceso",
+                "off (state)": "spento", "to toggle": "alternare", "prawn": "gambero", "or": "o, oppure",
+                "date": "data", "to use": "usar, utilizzare", "to be": "essere", "to see / to stare at / look at": "vedere / guardare",
+                "TV / television": "TV / televisione", "to verify": "verificare", "checkbox": "casella di spunta",
+                "time": "tempo, volta", "extremely": "estremamente", "oil": "olio"
+            },
+            "ja": {
+                "singular marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "単数形マーカー（数えられるものに使用。液体、半液体、抽象的なものを除く）",
+                "I saw (a) fruit.": "私は果物を見ました。",
+                "present tense / present continuous marker": "現在形 / 現在進行形マーカー",
+                "He/she/it belongs here.": "彼/彼女/それはここに属しています。",
+                "plural marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "複数形マーカー（数えられるものに使用。液体、半液体、抽象的なものを除く）",
+                "I saw fruits.": "私は果物（複数）を見ました。",
+                "negation marker": "否定マーカー",
+                "I didn't see a fruit.": "私は果物を見ませんでした。",
+                "future tense marker": "未来形マーカー",
+                "He/she/it will go here.": "彼/彼女/それはここに行くでしょう。",
+                "past tense marker": "過去形マーカー",
+                "He/she/it belonged here.": "彼/彼女/それはここに属していました。",
+                "shark": "サメ", "daughter": "娘", "fast, swift": "速い、迅速な", "mouth": "口",
+                "to suggest / suggestion": "提案する / 提案", "food": "食べ物、食品", "hi": "やあ、こんにちは",
+                "more": "もっと、より多くの", "different": "異なる、違う", "universe": "宇宙", "content": "内容、コンテンツ",
+                "first person marker (I, we)": "一人称（私、私たち）", "also": "また、同様に", "there": "あそこ、そこに",
+                "vegetable": "野菜", "electric, electricity": "電気の、電気", "cursor": "カーソル",
+                "computer mouse": "コンピューターマウス", "to have / to possess": "持つ、所有する", "knife": "ナイフ",
+                "from": "〜から", "to grow": "成長する、育つ", "to know": "知る、分かっている", "brother": "兄弟",
+                "fruit": "果物、フルーツ", "now": "今、現在", "centre, middle": "中心、中央", "uncle": "叔父",
+                "hot": "熱い、暑い", "cold": "冷たい、寒い", "China": "中国", "left": "左", "right (direction)": "右（方向）",
+                "row": "列", "ten / 10": "十 / 10", "good, cool, nice": "良い、素晴らしい", "bad, evil": "悪い、悪の",
+                "temptation": "誘惑", "mistake, trespass": "間違い、罪", "hand": "手", "two / 2": "二 / 2",
+                "and": "と、そして", "because": "なぜなら", "to do / to let": "する、させる", "to feel": "感じる",
+                "to wish / wish": "願う / 願い", "second person marker (you, you all)": "二人称（あなた、あなたたち）",
+                "bye": "バイバイ、さようなら", "to invent / to make": "発明する / 作る", "foot": "足", "to forgive": "許す、容赦する",
+                "to hurt": "痛む、傷つける", "father": "父、父親", "grandfather (paternal)": "祖父（父方）",
+                "grandmother (paternal)": "祖母（父方）", "ground, land, earth, dirt": "地面、土地、地球、土",
+                "before": "前に、〜より前に", "to change": "変える、変化する", "before (time/previous)": "以前（時間 / 前の）",
+                "after": "後で、〜の後に", "furniture": "家具", "grass": "草、芝生", "to go / to move": "行く、移動する",
+                "to stop": "止まる、停止する", "barrier": "バリア、障壁", "car": "車、自動車", "driver": "運転手",
+                "driver (contracted)": "運転手（縮約形）", "button": "ボタン", "god": "神", "four / 4": "四 / 4",
+                "republic": "共和国", "loud": "大声の、うるさい", "quiet": "静かな、穏やかな", "how": "どのように、どうやって",
+                "what, who": "何、誰", "where": "どこ", "when": "いつ", "to save": "保存する、貯金する",
+                "to start / to birth / birth / to live / life": "始める / 誕生する / 命、生活",
+                "to end / to die / death / end / finally / final": "終わる / 死ぬ / 死 / 限界、最終",
+                "to stick": "貼る、くっつく", "this, these": "これ、これら", "heaven": "天国、空", "eight / 8": "八 / 8",
+                "that, those": "あれ、あれら", "on, upon": "〜の上に", "stone": "石、岩", "one / 1": "一 / 1",
+                "like, similar to": "〜のような、同様の", "building": "建物、ビル", "of (genitive marker)": "〜の（所有格マーカー）",
+                "dollar": "ドル", "screen": "画面、スクリーン", "yeah / right / huh / oh": "そう、はい、へえ", "new": "新しい",
+                "skin": "皮膚、肌", "to join": "参加する、加入する", "but": "しかし、でも", "friend": "友達、友人",
+                "enemy": "敵", "to switch / switch": "切り替える / スイッチ", "aware": "気づいている、自覚している",
+                "ear": "耳", "sad": "悲しい", "happy": "幸せな、嬉しい", "coarse, rough": "粗い、ざらざらした",
+                "cobblestone": "玉石、石畳", "to excel / to surpass / to exceed": "優れる、上回る", "than": "〜より",
+                "to play": "遊ぶ", "cousin": "いとこ", "book": "本、書籍", "word, language": "言葉、言語",
+                "to speak, talk, input": "話す、喋る、入力する", "to output / to hear / to receive": "聞く、受信する",
+                "speaker": "スピーカー", "dictionary": "辞書、事典", "telephone": "電話、テレホン", "block, cube": "ブロック、立方体",
+                "version": "バージョン、版", "quark": "クォーク", "leaf": "葉っぱ、木の葉", "tea": "お茶",
+                "to load / to insert": "読み込む、挿入する", "to happen": "起こる、発生する", "almost": "ほとんど、もう少しで",
+                "cat": "猫", "sign": "看板、標識", "again, once more": "再び、もう一度", "to reset / to restart": "リセットする / 再起動する",
+                "to eat": "食べる", "to lock": "ロックする、施錠する", "whale": "クジラ", "owl": "フクロウ",
+                "spot": "斑点、スポット", "granite": "花崗岩、御影石", "other": "他の、別の", "question particle": "疑問助詞",
+                "zero / 0": "零 / 0", "air": "空気", "to fight / fight": "戦う / 戦闘", "school": "学校",
+                "student": "学生、生徒", "front": "前、正面", "back": "後ろ、背面", "light": "光、灯り",
+                "machine": "機械、マシン", "to buy / to shop": "買う、買い物する", "market": "市場、マーケット",
+                "to remember": "覚えている、思い出す", "possible / can / could": "可能、〜できる", "mother": "母、母親",
+                "grandfather (maternal)": "祖父（母方）", "grandmother (maternal)": "祖母（母方）",
+                "to progress / progression": "進歩する / 進行", "continuous, ongoing": "継続的な、絶え間ない",
+                "nose": "鼻", "boat": "ボート、小舟", "flint": "火打石", "nine / 9": "九 / 9", "name": "名前",
+                "status": "ステータス、状態", "grade, mark": "成績、点数", "month": "月", "neutron": "中性子",
+                "to pass": "合格する", "to fail": "不合格になる、失敗する", "ok": "オッケー", "to explode": "爆発する",
+                "third person marker (he, she, they, it)": "三人称（彼、彼女、それ）", "passport": "パスポート",
+                "holy": "神静な、神聖な", "five / 5": "五 / 5", "to need": "必要とする", "water": "水",
+                "concrete": "コンクリート", "big, old": "大きい、古い", "small, young": "小さい、若い",
+                "tower, skyscraper": "塔、超高層ビル", "kid, child": "子供、キッズ", "to hover": "ホバリングする",
+                "bird": "鳥", "please": "どうぞ、お願いします", "normal, ordinary": "普通、通常",
+                "to polish / polished": "磨く / 磨かれた", "proton": "陽子、プロトン", "empty": "空っぽの",
+                "never / no": "決して〜ない / いいえ", "nothing": "何もない", "flamingo": "フラミンゴ", "dream": "夢",
+                "to cram / to fill / to crowd": "詰め込む、満たす", "easy": "簡単な、易しい", "hard": "難しい、困難な",
+                "difficulty": "困難、難しさ", "accessible": "アクセス可能な、利用しやすい", "success": "成功",
+                "person, human": "人、人間", "up": "上", "down": "下", "column": "コラム、円柱", "year": "年、歳",
+                "to select": "選択する", "some": "一部の、いくつかの", "example": "例、見本", "bone": "骨",
+                "seven / 7": "七 / 7", "star": "星", "thing": "物、事", "to say": "言う", "money": "お金、金銭",
+                "bank": "銀行", "eye": "目", "week": "週", "sister": "姉妹、姉、妹", "shrimp": "エビ",
+                "son": "息子", "mouse": "ネズミ", "to like": "好む、好き", "to love": "愛する", "to marry": "結婚する",
+                "list": "リスト、一覧", "day": "日、昼", "night": "夜、夜間", "peace / peaceful": "平和 / 平和な",
+                "many / most / maybe": "多くの", "to practise": "練習する、訓練する", "metal": "金属",
+                "emergency": "緊急、非常事態", "three / 3": "三 / 3", "place": "場所、位置", "short": "短い",
+                "thousand / 1000": "千 / 1000", "sky": "空", "aeroplane": "飛行機", "to fly": "飛ぶ、飛行する",
+                "aeroplane announcement machine": "機内アナウンス機", "pilot": "パイロット、操縦士",
+                "pilot (contracted)": "パイロット（短縮形）", "space (outer space)": "宇宙空間、外宇宙",
+                "spaceship, rocket": "宇宙船、ロケット", "spaceship (contracted)": "宇宙船（短縮形）",
+                "everything / every / all / yes / always / full": "すべて / いつも / 満ちた", "hundred / 100": "百 / 100",
+                "to believe": "信じる", "to sleep / to tire": "眠る、疲れる", "to wake, awaken": "目覚める、起きる",
+                "so": "だから、それで", "technology": "技術、テクノロジー", "six / 6": "六 / 6", "on (state)": "オン（状態）",
+                "off (state)": "オフ（状態）", "to toggle": "切り替える", "prawn": "車エビ", "or": "または、あるいは",
+                "date": "日付", "to use": "使う、使用する", "to be": "〜である、存在する", "to see / to stare at / look at": "見る、凝視する",
+                "TV / television": "テレビ、テレビ受像機", "to verify": "検証する、確認する", "checkbox": "チェックボックス",
+                "time": "時間、回数", "extremely": "非常に、極めて", "oil": "油、オイル"
+            },
+            "zh_cn": {
+                "singular marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "单数标记（用于可数事物，不包括液体、半液体和抽象事物）",
+                "I saw (a) fruit.": "我看见了一个水果。",
+                "present tense / present continuous marker": "现在时/现在进行时标记",
+                "He/she/it belongs here.": "他/她/它属于这里。",
+                "plural marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "复数标记（用于可数事物，不包括液体、半液体和抽象事物）",
+                "I saw fruits.": "我看见了水果（复数）。",
+                "negation marker": "否定标记",
+                "I didn't see a fruit.": "我没有看见水果。",
+                "future tense marker": "将来时标记",
+                "He/she/it will go here.": "他/她/它会去这里。",
+                "past tense marker": "过去时标记",
+                "He/she/it belonged here.": "他/她/它曾属于这里。",
+                "shark": "鲨鱼", "daughter": "女儿", "fast, swift": "快速的、敏捷的", "mouth": "嘴、口",
+                "to suggest / suggestion": "建议", "food": "食物、粮食", "hi": "你好、嗨", "more": "更多",
+                "different": "不同的、不一样的", "universe": "宇宙", "content": "内容",
+                "first person marker (I, we)": "第一人称标记（我、我们）", "also": "也、而且", "there": "在那里、那里",
+                "vegetable": "蔬菜", "electric, electricity": "电力、电气", "cursor": "光标",
+                "computer mouse": "电脑鼠标", "to have / to possess": "有、拥有", "knife": "刀", "from": "来自、从",
+                "to grow": "成长、种植", "to know": "知道、了解", "brother": "兄弟", "fruit": "水果",
+                "now": "现在", "centre, middle": "中心、中间", "uncle": "叔叔、伯伯", "hot": "热的", "cold": "冷的",
+                "China": "中国", "left": "左边", "right (direction)": "右边（方向）", "row": "行、排",
+                "ten / 10": "十 / 10", "good, cool, nice": "好的、酷的、友善的", "bad, evil": "坏的、邪恶的",
+                "temptation": "诱惑", "mistake, trespass": "错误、过失", "hand": "手", "two / 2": "二 / 2",
+                "and": "和、与", "because": "因为", "to do / to let": "做、让", "to feel": "感觉、觉得",
+                "to wish / wish": "祝愿、希望", "second person marker (you, you all)": "第二人称标记（你、你们）",
+                "bye": "再见", "to invent / to make": "发明、制作", "foot": "脚、足", "to forgive": "原谅、宽恕",
+                "to hurt": "伤害、疼", "father": "父亲", "grandfather (paternal)": "祖父（爷爷）",
+                "grandmother (paternal)": "祖母（奶奶）", "ground, land, earth, dirt": "地面、土地、泥土",
+                "before": "在...之前", "to change": "改变", "before (time/previous)": "以前的、之前的",
+                "after": "在...之后、以后", "furniture": "家具", "grass": "草、草地", "to go / to move": "去、移动",
+                "to stop": "停止、停下", "barrier": "障碍物", "car": "汽车", "driver": "司机",
+                "driver (contracted)": "司机（缩写）", "button": "按钮", "god": "神", "four / 4": "四 / 4",
+                "republic": "共和国", "loud": "大声的、吵闹的", "quiet": "安静的、平静的", "how": "如何、怎么",
+                "what, who": "什么、谁", "where": "哪里", "when": "什么时候", "to save": "节省、保存、拯救",
+                "to start / to birth / birth / to live / life": "开始/出生/生命", "to end / to die / death / end / finally / final": "结束/死亡",
+                "to stick": "粘、贴", "this, these": "这个、这些", "heaven": "天堂、天空", "eight / 8": "八 / 8",
+                "that, those": "那个、那些", "on, upon": "在...之上", "stone": "石头", "one / 1": "一 / 1",
+                "like, similar to": "像、类似于", "building": "建筑物", "of (genitive marker)": "的（属格标记）",
+                "dollar": "元、美元", "screen": "屏幕", "yeah / right / huh / oh": "是啊、对的、哦", "new": "新的",
+                "skin": "皮肤、皮", "to join": "加入", "but": "但是、可是", "friend": "朋友", "enemy": "敌人",
+                "to switch / switch": "切换/开关", "aware": "知道、察觉", "ear": "耳朵", "sad": "悲伤的",
+                "happy": "快乐的、开心的", "coarse, rough": "粗糙的", "cobblestone": "鹅卵石", "to excel / to surpass / to exceed": "超越、胜过",
+                "than": "比（比较）", "to play": "玩、游戏", "cousin": "堂表亲", "book": "书、书籍", "word, language": "字词、语言",
+                "to speak, talk, input": "说话、讲、输入", "to output / to hear / to receive": "听到、接收、输出",
+                "speaker": "扬声器、喇叭", "dictionary": "词典、字典", "telephone": "电话", "block, cube": "方块、立方体",
+                "version": "版本", "quark": "夸克", "leaf": "叶子", "tea": "茶", "to load / to insert": "加载、插入",
+                "to happen": "发生", "almost": "几乎、差一点", "cat": "猫", "sign": "标牌、迹象",
+                "again, once more": "再次、重新", "to reset / to restart": "重置/重启", "to eat": "吃", "to lock": "锁上",
+                "whale": "鲸鱼", "owl": "猫头鹰", "spot": "斑点", "granite": "花岗岩", "other": "其他的",
+                "question particle": "疑问助词", "zero / 0": "零 / 0", "air": "空气", "to fight / fight": "战斗",
+                "school": "学校", "student": "学生", "front": "前面", "back": "后面", "light": "光、光线",
+                "machine": "机器", "to buy / to shop": "买、购物", "market": "市场", "to remember": "记得、记住",
+                "possible / can / could": "可能、可以", "mother": "母亲", "grandfather (maternal)": "外祖父（外公）",
+                "grandmother (maternal)": "外祖母（外婆）", "to progress / progression": "进步、发展",
+                "continuous, ongoing": "连续的、持续的", "nose": "鼻子", "boat": "船", "flint": "燧石",
+                "nine / 9": "九 / 9", "name": "名字", "status": "状态、地位", "grade, mark": "分数、成绩",
+                "month": "月份", "neutron": "中子", "to pass": "通过", "to fail": "不及格、失败", "ok": "好、行",
+                "to explode": "爆炸", "third person marker (he, she, they, it)": "第三人称标记", "passport": "护照",
+                "holy": "神圣的", "five / 5": "五 / 5", "to need": "需要", "water": "水", "concrete": "混凝土",
+                "big, old": "大的、老的", "small, young": "小的、年轻的", "tower, skyscraper": "塔、摩天大楼",
+                "kid, child": "孩子", "to hover": "盘旋、悬停", "bird": "鸟", "please": "请", "normal, ordinary": "普通、平常",
+                "to polish / polished": "抛光、磨光", "proton": "质子", "empty": "空的", "never / no": "从不 / 不",
+                "nothing": "没有什么", "flamingo": "火鸟", "dream": "梦想、梦境", "to cram / to fill / to crowd": "塞满、拥挤",
+                "easy": "容易的", "hard": "困难的、坚硬的", "difficulty": "困难", "accessible": "可达到的、易用的",
+                "success": "成功", "person, human": "人、人类", "up": "向上", "down": "向下", "column": "圆柱",
+                "year": "年", "to select": "选择", "some": "一些", "example": "例子、范例", "bone": "骨头",
+                "seven / 7": "七 / 7", "star": "星星", "thing": "事物", "to say": "说", "money": "钱",
+                "bank": "银行", "eye": "眼睛", "week": "星期、周", "sister": "姐妹、姐姐、妹妹", "shrimp": "虾",
+                "son": "儿子", "mouse": "老鼠", "to like": "喜欢", "to love": "爱", "to marry": "结婚",
+                "list": "列表", "day": "一天、白昼", "night": "夜晚", "peace / peaceful": "和平 / 和平的",
+                "many / most / maybe": "许多、也许", "to practise": "练习", "metal": "金属", "emergency": "紧急情况",
+                "three / 3": "三 / 3", "place": "地方、地点", "short": "短的", "thousand / 1000": "千 / 1000",
+                "sky": "天空", "aeroplane": "飞机", "to fly": "飞、飞行", "aeroplane announcement machine": "飞机广播机器",
+                "pilot": "飞行员", "pilot (contracted)": "飞行员（缩写）", "space (outer space)": "外太空",
+                "spaceship, rocket": "太空船、火箭", "spaceship (contracted)": "飞船",
+                "everything / every / all / yes / always / full": "一切 / 总是 / 充满", "hundred / 100": "百 / 100",
+                "to believe": "相信", "to sleep / to tire": "睡觉 / 疲倦", "to wake, awaken": "醒来",
+                "so": "所以", "technology": "技术、科技", "six / 6": "六 / 6", "on (state)": "开（状态）",
+                "off (state)": "关（状态）", "to toggle": "切换", "prawn": "对虾、大虾", "or": "或者",
+                "date": "日期", "to use": "使用", "to be": "是、存在", "to see / to stare at / look at": "看、凝视",
+                "TV / television": "电视", "to verify": "验证", "checkbox": "复选框", "time": "时间、次数",
+                "extremely": "极其、非常", "oil": "油"
+            },
+            "zh_tw": {
+                "singular marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "單數標記（用於可數事物，不包括液體、半液體和抽象事物）",
+                "I saw (a) fruit.": "看見了一個水果。",
+                "present tense / present continuous marker": "現在時/現在進行時標記",
+                "He/she/it belongs here.": "他/她/它屬於這裡。",
+                "plural marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "複數標記（用於可數事物，不包括液體、半液體和抽象事物）",
+                "I saw fruits.": "我看見了水果（複數）。",
+                "negation marker": "否定標記",
+                "I didn't see a fruit.": "我沒有看見水果。",
+                "future tense marker": "將來時標記",
+                "He/she/it will go here.": "他/她/它會去這裡。",
+                "past tense marker": "過去時標記",
+                "He/she/it belonged here.": "他/她/它曾屬於這裡。",
+                "shark": "鯊魚", "daughter": "女兒", "fast, swift": "快速的、敏捷的", "mouth": "嘴、口",
+                "to suggest / suggestion": "建議", "food": "食物、糧食", "hi": "你好、嗨", "more": "更多",
+                "different": "調和不同、不一樣的", "universe": "宇宙", "content": "內容",
+                "first person marker (I, we)": "第一人稱標記（我、我們）", "also": "也、而且", "there": "在那裡、那裡",
+                "vegetable": "蔬菜", "electric, electricity": "電的、電力", "cursor": "光標",
+                "computer mouse": "電腦滑鼠", "to have / to possess": "有、擁有", "knife": "刀", "from": "來自、從",
+                "to grow": "成長、種植", "to know": "知道、了解", "brother": "兄弟", "fruit": "水果",
+                "now": "現在", "centre, middle": "中心、中間", "uncle": "叔叔、伯伯", "hot": "熱的", "cold": "冷的",
+                "China": "中國", "left": "左邊", "right (direction)": "右邊（方向）", "row": "行、排",
+                "ten / 10": "十 / 10", "good, cool, nice": "好的、酷的、友善的", "bad, evil": "壞的、邪惡的",
+                "temptation": "誘惑", "mistake, trespass": "錯誤、過失", "hand": "手", "two / 2": "二 / 2",
+                "and": "和、與", "because": "因爲", "to do / to let": "做、讓", "to feel": "感覺、覺得",
+                "to wish / wish": "祝願、希望", "second person marker (you, you all)": "第二人稱標記（你、你們）",
+                "bye": "再見", "to invent / to make": "發明、製作", "foot": "腳、足", "to forgive": "原諒、寬恕",
+                "to hurt": "傷害、疼", "father": "父親", "grandfather (paternal)": "祖父（爺爺）",
+                "grandmother (paternal)": "祖母（納納）", "ground, land, earth, dirt": "地面、土地、泥土",
+                "before": "在...之前", "to change": "改變", "before (time/previous)": "以前的、之前的",
+                "after": "在...之後、以後", "furniture": "家具", "grass": "草、草地", "to go / to move": "去、移動",
+                "to stop": "停止、停下", "barrier": "障礙物", "car": "汽車", "driver": "司機",
+                "driver (contracted)": "司機（縮寫）", "button": "按鈕", "god": "神", "four / 4": "四 / 4",
+                "republic": "共和國", "loud": "大聲的、吵鬧的", "quiet": "安靜的、平靜的", "how": "如何、怎麼",
+                "what, who": "什麼、誰", "where": "哪裡", "when": "什麼時候", "to save": "節省、保存、拯救",
+                "to start / to birth / birth / to live / life": "開始/出生/生命", "to end / to die / death / end / finally / final": "結束/死亡",
+                "to stick": "粘、貼", "this, these": "這個、這些", "heaven": "天堂、天空", "eight / 8": "八 / 8",
+                "that, those": "那個、那些", "on, upon": "在...之上", "stone": "石頭", "one / 1": "一 / 1",
+                "like, similar to": "像、類似於", "building": "建築物", "of (genitive marker)": "的（屬格記號）",
+                "dollar": "元、美元", "screen": "屏幕", "yeah / right / huh / oh": "是啊、對的、哦", "new": "新的",
+                "skin": "皮膚、皮", "to join": "加入", "but": "打、但", "friend": "朋友", "enemy": "敵人",
+                "to switch / switch": "切換/開關", "aware": "know、察覺", "ear": "耳朵", "sad": "悲傷的",
+                "happy": "快樂的、開心的", "coarse, rough": "粗糙的", "cobblestone": "鵝卵石", "to excel / to surpass / to exceed": "超越、勝過",
+                "than": "比（比較）", "to play": "玩、遊戲", "cousin": "堂表親", "book": "書、書籍", "word, language": "字詞、語言",
+                "to speak, talk, input": "說話、講、輸入", "to output / to hear / to receive": "聽到、接收、輸出",
+                "speaker": "揚声器、喇叭", "dictionary": "詞典、字典", "telephone": "電話", "block, cube": "方塊、立方體",
+                "version": "版本", "quark": "誇克", "leaf": "葉子", "tea": "茶", "to load / to insert": "加載、插入",
+                "to happen": "發生", "almost": "幾乎、差一點", "cat": "貓", "sign": "標牌、跡象",
+                "again, once more": "再次、重新", "to reset / to restart": "重置/重啟", "to eat": "吃", "to lock": "鎖上",
+                "whale": "鯨魚", "owl": "貓頭鹰", "spot": "斑點", "granite": "花崗岩", "other": "其他的",
+                "question particle": "疑問助詞", "zero / 0": "零 / 0", "air": "空氣", "to fight / fight": "戰鬥",
+                "school": "學校", "student": "學生", "front": "前面", "back": "後面", "light": "光、光线",
+                "machine": "機器", "to buy / to shop": "買、購物", "market": "市場", "to remember": "記得、記住",
+                "possible / can / could": "可能、可以", "mother": "母親", "grandfather (maternal)": "外祖父（外公）",
+                "grandmother (maternal)": "外祖母（外婆）", "to progress / progression": "進步、發展",
+                "continuous, ongoing": "連續的、持續的", "nose": "鼻子", "boat": "船", "flint": "燧石",
+                "nine / 9": "九 / 9", "name": "名字", "status": "狀態、地位", "grade, mark": "分數、成績",
+                "month": "月份", "neutron": "中子", "to pass": "通過", "to fail": "不及格、失敗", "ok": "好、行",
+                "to explode": "爆炸", "third person marker (he, she, they, it)": "第三人稱標記", "passport": "護照",
+                "holy": "神聖的", "five / 5": "五 / 5", "to need": "需要", "water": "水", "concrete": "混凝土",
+                "big, old": "大、老的", "small, young": "小、年輕的", "tower, skyscraper": "塔、摩天大樓",
+                "kid, child": "孩子", "to hover": "盤旋、懸停", "bird": "鳥", "please": "請", "normal, ordinary": "普通、平常",
+                "to polish / polished": "拋光、磨光", "proton": "質子", "empty": "空的", "never / no": "從不 / 不",
+                "nothing": "沒有什麼", "flamingo": "火烈鳥", "dream": "夢想、夢境", "to cram / to fill / to crowd": "塞滿、擁擠",
+                "easy": "容易的", "hard": "困難的、堅硬的", "difficulty": "困難", "accessible": "可達到的、易用的",
+                "success": "成功", "person, human": "人、人類", "up": "向上", "down": "向下", "column": "圓柱",
+                "year": "年", "to select": "選擇", "some": "一些", "example": "例子、範例", "bone": "骨頭",
+                "seven / 7": "七 / 7", "star": "星星", "thing": "事物", "to say": "說", "money": "錢",
+                "bank": "銀行", "eye": "眼睛", "week": "星期、周", "sister": "姐妹、姐姐、妹妹", "shrimp": "蝦",
+                "son": "兒子", "mouse": "老鼠", "to like": "喜歡", "to love": "愛", "to marry": "結婚",
+                "list": "列表", "day": "一天、白晝", "night": "夜晚", "peace / peaceful": "和平 / 和平的",
+                "many / most / maybe": "許多、也許", "to practise": "練習", "metal": "金屬", "emergency": "緊急情況",
+                "three / 3": "三 / 3", "place": "地方、地點", "short": "短的", "thousand / 1000": "千 / 1000",
+                "sky": "天空", "aeroplane": "飛機", "to fly": "飛、飛行", "aeroplane announcement machine": "飛機廣播機器",
+                "pilot": "飛行員", "pilot (contracted)": "飛行员（縮寫）", "space (outer space)": "外太空",
+                "spaceship, rocket": "太空船、火箭", "spaceship (contracted)": "飛船",
+                "everything / every / all / yes / always / full": "一切 / 總之", "hundred / 100": "百 / 100",
+                "to believe": "相信", "to sleep / to tire": "睡覺 / 批倦", "to wake, awaken": "醒來",
+                "so": "所以", "technology": "技術、科技", "six / 6": "六 / 6", "on (state)": "開（狀態）",
+                "off (state)": "關（狀態）", "to toggle": "切換", "prawn": "對蝦、大蝦", "or": "或者",
+                "date": "日期", "to use": "使用", "to be": "是、存在", "to see / to stare at / look at": "看、縮短",
+                "TV / television": "電視", "to verify": "驗證", "checkbox": "複選框", "time": "時間、次數",
+                "extremely": "極其、非常", "oil": "油"
+            },
+            "fr": {
+                "singular marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "marqueur du singulier (utilisé pour les objets dénombrables, à l'exclusion des liquides, des semi-liquides et des objets abstraits)",
+                "I saw (a) fruit.": "J'ai vu un fruit.",
+                "present tense / present continuous marker": "marqueur du présent / présent continu",
+                "He/she/it belongs here.": "Il/elle/cela appartient ici.",
+                "plural marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "marqueur du pluriel (utilisé pour les objets dénombrables, à l'exclusion des liquides, des semi-liquides et des objets abstraits)",
+                "I saw fruits.": "J'ai vu des fruits.",
+                "negation marker": "marqueur de négation",
+                "I didn't see a fruit.": "Je n'y ai pas vu de fruit.",
+                "future tense marker": "marqueur du futur",
+                "He/she/it will go here.": "Il/elle/cela ira ici.",
+                "past tense marker": "marqueur du passé",
+                "He/she/it belonged here.": "Il/elle/cela appartenait ici.",
+                "shark": "requin", "daughter": "fille", "fast, swift": "rapide, agile", "mouth": "bouche",
+                "to suggest / suggestion": "suggérer / suggestion", "food": "nourriture, aliment", "hi": "salut",
+                "more": "plus, encore", "different": "différent", "universe": "univers", "content": "contenu",
+                "first person marker (I, we)": "pronom de première personne (je, nous)", "also": "aussi", "there": "là",
+                "vegetable": "légume", "electric, electricity": "électrique, électricité", "cursor": "curseur",
+                "computer mouse": "souris d'ordinateur", "to have / to possess": "avoir / posséder", "knife": "couteau",
+                "from": "de", "to grow": "grandir, pousser", "to know": "savoir, connaître", "brother": "frère",
+                "fruit": "fruit", "now": "maintenant", "centre, middle": "centre, milieu", "uncle": "oncle",
+                "hot": "chaud", "cold": "froid", "China": "Chine", "left": "gauche", "right (direction)": "droite (direction)",
+                "row": "rangée", "ten / 10": "dix / 10", "good, cool, nice": "bon, cool, agréable", "bad, evil": "mauvais, méchant",
+                "temptation": "tentation", "mistake, trespass": "erreur, offense", "hand": "main", "two / 2": "deux / 2",
+                "and": "et", "because": "parce que", "to do / to let": "faire / laisser", "to feel": "ressentir, éprouver",
+                "to wish / wish": "souhaiter / souhait", "second person marker (you, you all)": "pronom de deuxième personne (tu, vous)",
+                "bye": "salut (au revoir)", "to invent / to make": "inventer / fabriquer",
+                "foot": "pied", "to forgive": "pardonner", "to hurt": "blesser, faire mal", "father": "père",
+                "grandfather (paternal)": "grand-père (paternel)", "grandmother (paternal)": "grand-mère (paternelle)",
+                "ground, land, earth, dirt": "sol, terre, terrain", "before": "avant, devant", "to change": "changer",
+                "before (time/previous)": "auparavant", "after": "après", "furniture": "meubles", "grass": "herbe, pelouse",
+                "to go / to move": "aller, se déplacer", "to stop": "arrêter, s'arrêter", "barrier": "barrière, obstacle",
+                "car": "voiture", "driver": "conducteur", "driver (contracted)": "conducteur (contracté)",
+                "button": "bouton", "god": "dieu", "four / 4": "quatre / 4", "republic": "république",
+                "loud": "fort, bruyant", "quiet": "calme, silencieux", "how": "comment", "what, who": "quoi, qui",
+                "where": "où", "when": "quand", "to save": "sauvegarder, économiser",
+                "to start / to birth / birth / to live / life": "commencer / donner naissance / naissance / vivre / vie",
+                "to end / to die / death / end / finally / final": "finir / mourir / mort / fin / enfin / final",
+                "to stick": "coller", "this, these": "ceci, ceux-ci", "heaven": "ciel, paradis", "eight / 8": "huit / 8",
+                "that, those": "cela, ceux-là", "on, upon": "sur", "stone": "pierre", "one / 1": "un / 1",
+                "like, similar to": "comme, semblable à", "building": "bâtiment, édifice", "of (genitive marker)": "de (marqueur génitif)",
+                "dollar": "dollar", "screen": "écran", "yeah / right / huh / oh": "ouais / d'accord / oh", "new": "nouveau",
+                "skin": "peau", "to join": "rejoindre", "but": "mais", "friend": "ami", "enemy": "ennemi",
+                "to switch / switch": "commuter / interrupteur", "aware": "conscient", "ear": "oreille", "sad": "triste",
+                "happy": "heureux", "coarse, rough": "grossier, rugueux", "cobblestone": "pavé",
+                "to excel / to surpass / to exceed": "exceller / surpasser / dépasser", "than": "que (comparatif)",
+                "to play": "jouer", "cousin": "cousin", "book": "livre", "word, language": "mot, langue",
+                "to speak, talk, input": "parler, saisir", "to output / to hear / to receive": "écouter, recevoir",
+                "speaker": "haut-parleur", "dictionary": "dictionnaire", "telephone": "téléphone", "block, cube": "bloc, cube",
+                "version": "version", "quark": "quark", "leaf": "feuille", "tea": "thé", "to load / to insert": "charger / insérer",
+                "to happen": "se passer, arriver", "almost": "presque", "cat": "chat", "sign": "signe, panneau",
+                "again, once more": "encore, à nouveau", "to reset / to restart": "réinitialiser / redémarrer", "to eat": "manger",
+                "to lock": "verrouiller", "whale": "baleine", "owl": "hibou", "spot": "tache, spot", "granite": "granite",
+                "other": "autre", "question particle": "particule interrogative", "zero / 0": "zéro / 0", "air": "air",
+                "to fight / fight": "combattre / combat", "school": "école", "student": "élève, étudiant", "front": "devant, avant",
+                "back": "derrière, arrière", "light": "lumière", "machine": "machine", "to buy / to shop": "acheter / faire des courses",
+                "market": "marché", "to remember": "se souvenir, se rappeler", "possible / can / could": "possible / pouvoir / pourrait",
+                "mother": "mère", "grandfather (maternal)": "grand-père (maternel)", "grandmother (maternal)": "grand-mère (maternelle)",
+                "to progress / progression": "progresser / progression", "continuous, ongoing": "continu",
+                "nose": "nez", "boat": "bateau", "flint": "silex", "nine / 9": "neuf / 9", "name": "nom",
+                "status": "statut, état", "grade, mark": "note", "month": "mois", "neutron": "neutron",
+                "to pass": "réussir, passer", "to fail": "échouer", "ok": "ok", "to explode": "exploser",
+                "third person marker (he, she, they, it)": "pronom de troisième personne (il, elle, ils/elles, cela)", "passport": "passeport",
+                "holy": "saint, sacré", "five / 5": "cinq / 5", "to need": "avoir besoin de", "water": "eau",
+                "concrete": "béton", "big, old": "grand, vieux", "small, young": "petit, jeune",
+                "tower, skyscraper": "tour, gratte-ciel", "kid, child": "enfant", "to hover": "voler en stationnaire",
+                "bird": "oiseau", "please": "s'il vous plaît", "normal, ordinary": "normal, ordinaire",
+                "to polish / polished": "polir / poli", "proton": "proton", "empty": "vide", "never / no": "jamais / non",
+                "nothing": "rien", "flamingo": "flamant rose", "dream": "rêve", "to cram / to fill / to crowd": "bourrer / remplir / entasser",
+                "easy": "facile", "hard": "difficile, dur", "difficulty": "difficulté", "accessible": "accessible",
+                "success": "succès, réussite", "person, human": "personne, humain", "up": "haut, en haut", "down": "bas, en bas", "column": "colonne",
+                "year": "année, an", "to select": "sélectionner", "some": "quelques, certains", "example": "exemple", "bone": "os",
+                "seven / 7": "sept / 7", "star": "étoile", "thing": "chose", "to say": "dire", "money": "argent",
+                "bank": "banque", "eye": "œil", "week": "semaine", "sister": "sœur", "shrimp": "crevette", "son": "fils",
+                "mouse": "souris", "to like": "aimer, apprécier", "to love": "aimer d'amour", "to marry": "se marier",
+                "list": "liste", "day": "jour", "night": "nuit", "peace / peaceful": "paix / paisible", "many / most / maybe": "beaucoup / la plupart / peut-être",
+                "to practise": "s'entraîner, pratiquer", "metal": "métal", "emergency": "urgence", "three / 3": "trois / 3",
+                "place": "endroit, lieu", "short": "court", "thousand / 1000": "mille / 1000", "sky": "ciel",
+                "aeroplane": "avion", "to fly": "voler", "aeroplane announcement machine": "machine d'annonces de l'avion",
+                "pilot": "pilote", "pilot (contracted)": "pilote (contracté)", "space (outer space)": "espace (espace lointain)",
+                "spaceship, rocket": "vaisseau spatial, fusée", "spaceship (contracted)": "vaisseau spatial (contracté)",
+                "everything / every / all / yes / always / full": "tout / chaque / toujours / plein", "hundred / 100": "cent / 100",
+                "to believe": "croire", "to sleep / to tire": "dormir / fatiguer", "to wake, awaken": "se réveiller",
+                "so": "donc, alors", "technology": "technologie", "six / 6": "six / 6", "on (state)": "allumé (état)",
+                "off (state)": "éteint (état)", "to toggle": "basculer, commuter", "prawn": "crevette géante", "or": "ou",
+                "date": "date", "to use": "utiliser", "to be": "être", "to see / to stare at / look at": "voir / regarder",
+                "TV / television": "télévision, télé", "to verify": "vérifier", "checkbox": "case à cocher",
+                "time": "temps, fois", "extremely": "extrêmement", "oil": "huile"
+            },
+            "es": {
+                "singular marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "marcador singular (usado para cosas contables, excluyendo líquidos, semilíquidos y objetos abstractos)",
+                "I saw (a) fruit.": "Vi una fruta.",
+                "present tense / present continuous marker": "marcador de tiempo presente / presente continuo",
+                "He/she/it belongs here.": "Él/ella/eso pertenece aquí.",
+                "plural marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "marcador plural (usado para cosas contables, excluyendo líquidos, semilíquidos y objetos activos)",
+                "I saw fruits.": "Vi frutas.",
+                "negation marker": "marcador de negación",
+                "I didn't see a fruit.": "No vi una fruta.",
+                "future tense marker": "marcador de tiempo futuro",
+                "He/she/it will go here.": "Él/ella/eso irá aquí.",
+                "past tense marker": "marcador de tiempo pasado",
+                "He/she/it belonged here.": "Él/ella/eso pertenecía aquí.",
+                "shark": "tiburón", "daughter": "hija", "fast, swift": "rápido, veloz", "mouth": "boca",
+                "to suggest / suggestion": "sugerir / sugerencia", "food": "comida, alimento", "hi": "hola",
+                "more": "más", "different": "diferente", "universe": "universo", "content": "contenido",
+                "first person marker (I, we)": "pronombre de primera persona (yo, nosotros)", "also": "también", "there": "allí, allá",
+                "vegetable": "verdura", "electric, electricity": "eléctrico, electricidad", "cursor": "cursor",
+                "computer mouse": "ratón de computadora", "to have / to possess": "tener / poseer", "knife": "cuchillo",
+                "from": "de, desde", "to grow": "crecer", "to know": "saber, conocer", "brother": "hermano",
+                "fruit": "fruta", "now": "ahora", "centre, middle": "centro, medio", "uncle": "tío",
+                "hot": "caliente", "cold": "frío", "China": "China", "left": "izquierda", "right (direction)": "derecha (dirección)",
+                "row": "fila", "ten / 10": "diez / 10", "good, cool, nice": "bueno, genial, agradable", "bad, evil": "malo, malvado",
+                "temptation": "tentación", "mistake, trespass": "error, transgresión", "hand": "mano", "two / 2": "dos / 2",
+                "and": "y", "because": "porque", "to do / to let": "hacer / dejar", "to feel": "sentir",
+                "to wish / wish": "desear / deseo", "second person marker (you, you all)": "pronombre de segunda persona (tú, ustedes)",
+                "bye": "adiós", "to invent / to make": "inventar / hacer", "foot": "pie", "to forgive": "perdonar",
+                "to hurt": "doler, herir", "father": "padre", "grandfather (paternal)": "abuelo paterno",
+                "grandmother (paternal)": "abuela paterna", "ground, land, earth, dirt": "suelo, tierra, terreno",
+                "before": "antes, antes de", "to change": "cambiar", "before (time/previous)": "antes (anterior)",
+                "after": "después", "furniture": "muebles", "grass": "hierba, césped", "to go / to move": "ir / moverse",
+                "to stop": "detener, parar", "barrier": "barrera, obstáculo", "car": "carro, coche", "driver": "conductor",
+                "driver (contracted)": "conductor (corto)", "button": "botón", "god": "dios", "four / 4": "cuatro / 4",
+                "republic": "república", "loud": "fuerte, ruidoso", "quiet": "silencioso, tranquilo", "how": "cómo",
+                "what, who": "qué, quién", "where": "dónde", "when": "cuándo", "to save": "guardar, ahorrar",
+                "to start / to birth / birth / to live / life": "comenzar / nacer / nacimiento / vivir / vida",
+                "to end / to die / death / end / finally / final": "terminar / morir / muerte / fin / finalmente / final",
+                "to stick": "pegar, adherir", "this, these": "esto, estos", "heaven": "cielo, paraíso", "eight / 8": "ocho / 8",
+                "that, those": "eso, esos", "on, upon": "en, sobre", "stone": "piedra", "one / 1": "uno / 1",
+                "like, similar to": "como, similar a", "building": "edificio", "of (genitive marker)": "de (marcador genitivo)",
+                "dollar": "dólar", "screen": "pantalla", "yeah / right / huh / oh": "sí / de acuerdo / oh", "new": "nuevo",
+                "skin": "piel", "to join": "unirse", "but": "pero", "friend": "amigo", "enemy": "enemigo",
+                "to switch / switch": "conmutar / interruptor", "aware": "consciente", "ear": "oreja", "sad": "triste",
+                "happy": "feliz", "coarse, rough": "áspero, rugoso", "cobblestone": "adoquín",
+                "to excel / to surpass / to exceed": "sobresalir / superar / exceder", "than": "que (comparativo)",
+                "to play": "jugar", "cousin": "primo", "book": "libro", "word, language": "palabra, idioma",
+                "to speak, talk, input": "hablar, ingresar", "to output / to hear / to receive": "escuchar, recibir",
+                "speaker": "altavoz", "dictionary": "diccionario", "telephone": "teléfono", "block, cube": "bloque, cubo",
+                "version": "versión", "quark": "quark", "leaf": "hoja", "tea": "té", "to load / to insert": "cargar / insertar",
+                "to happen": "suceder, ocurrir", "almost": "casi", "cat": "gato", "sign": "letrero, señal",
+                "again, once more": "otra vez, de nuevo", "to reset / to restart": "reiniciar / restablecer", "to eat": "comer",
+                "to lock": "cerrar con llave", "whale": "ballena", "owl": "búho", "spot": "mancha", "granite": "granito",
+                "other": "otro", "question particle": "partícula de pregunta", "zero / 0": "cero / 0", "air": "aire",
+                "to fight / fight": "luchar / pelea", "school": "escuela", "student": "estudiante", "front": "frente, delantero",
+                "back": "atrás, trasero", "light": "luz", "machine": "máquina", "to buy / to shop": "comprar",
+                "market": "mercado", "to remember": "recordar", "possible / can / could": "posible / poder",
+                "mother": "madre", "grandfather (maternal)": "abuelo materno", "grandmother (maternal)": "abuela materna",
+                "to progress / progression": "progresar / progreso", "continuous, ongoing": "continuo",
+                "nose": "nariz", "boat": "bote, barco", "flint": "pedernal", "nine / 9": "nueve / 9", "name": "nombre",
+                "status": "estado, estatus", "grade, mark": "nota, calificación", "month": "mes", "neutron": "neutrón",
+                "to pass": "aprobar", "to fail": "reprobar, fallar", "ok": "ok", "to explode": "explotar",
+                "third person marker (he, she, they, it)": "pronombre de tercera persona (él, ella, ellos, eso)", "passport": "pasaporte",
+                "holy": "santo, sagrado", "five / 5": "cinco / 5", "to need": "necesitar", "water": "agua",
+                "concrete": "hormigón, concreto", "big, old": "grande, viejo", "small, young": "pequeño, joven",
+                "tower, skyscraper": "torre, rascacielos", "kid, child": "niño", "to hover": "volar estático",
+                "bird": "pájaro", "please": "por favor", "normal, ordinary": "normal, ordinario",
+                "to polish / polished": "pulir / pulido", "proton": "protón", "empty": "vacío", "never / no": "nunca / no",
+                "nothing": "nada", "flamingo": "flamenco", "dream": "sueño", "to cram / to fill / to crowd": "llenar, amontonar",
+                "easy": "fácil", "hard": "difícil, duro", "difficulty": "dificultad", "accessible": "accesible",
+                "success": "éxito, logro", "person, human": "persona, ser humano", "up": "arriba", "down": "abajo", "column": "columna",
+                "year": "año", "to select": "seleccionar", "some": "algunos", "example": "ejemplo", "bone": "hueso",
+                "seven / 7": "siete / 7", "star": "estrella", "thing": "cosa", "to say": "decir", "money": "dinero",
+                "bank": "banco", "eye": "ojo", "week": "semana", "sister": "hermana", "shrimp": "camarón", "son": "hijo",
+                "mouse": "ratón", "to like": "gustar", "to love": "amar", "to marry": "casarse",
+                "list": "lista", "day": "día", "night": "noche", "peace / peaceful": "paz / pacífico", "many / most / maybe": "muchos",
+                "to practise": "practicar", "metal": "metal", "emergency": "emergencia", "three / 3": "tres / 3",
+                "place": "lugar, sitio", "short": "corto", "thousand / 1000": "mil / 1000", "sky": "cielo",
+                "aeroplane": "avión", "to fly": "volar", "aeroplane announcement machine": "máquina de anuncios de vuelo",
+                "pilot": "piloto", "pilot (contracted)": "piloto (corto)", "space (outer space)": "espacio exterior",
+                "spaceship, rocket": "nave espacial, cohete", "spaceship (contracted)": "nave espacial",
+                "everything / every / all / yes / always / full": "todo / cada uno / siempre / lleno", "hundred / 100": "cien / 100",
+                "to believe": "creer", "to sleep / to tire": "dormir / cansar", "to wake, awaken": "despertar",
+                "so": "así que, entonces", "technology": "tecnología", "six / 6": "seis / 6", "on (state)": "encendido (estado)",
+                "off (state)": "apagado (estado)", "to toggle": "alternar", "prawn": "langostino", "or": "o",
+                "date": "fecha", "to use": "usar", "to be": "ser, estar", "to see / to stare at / look at": "ver / mirar",
+                "TV / television": "televisión", "to verify": "verificar", "checkbox": "casilla de verificación",
+                "time": "tiempo, vez", "extremely": "extremadamente", "oil": "aceite"
+            },
+            "tp": {
+                "singular marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "nanpa wan (ijo wan)",
+                "I saw (a) fruit.": "mi lukin e kili wan.",
+                "present tense / present continuous marker": "tenpo ni",
+                "He/she/it belongs here.": "ona li lon ni.",
+                "plural marker (used for countable things, excluding liquids, semi-liquids, and abstract objects)": "nanpa mute (ijo mute)",
+                "I saw fruits.": "mi lukin e kili mute.",
+                "negation marker": "ala",
+                "I didn't see a fruit.": "mi lukin ala e kili.",
+                "future tense marker": "tenpo kama",
+                "He/she/it will go here.": "ona li tawa ni lon tenpo kama.",
+                "past tense marker": "tenpo pini",
+                "He/she/it belonged here.": "ona li lon ni lon tenpo pini.",
+                "shark": "kala wawa seli", "daughter": "melihili", "fast, swift": "tawa wawa", "mouth": "uta",
+                "to suggest / suggestion": "pana e pilin", "food": "moku", "hi": "toki",
+                "more": "namako", "different": "ante", "universe": "ijo ale", "content": "insides",
+                "first person marker (I, we)": "mi", "also": "kin", "there": "ni",
+                "vegetable": "kili laso", "electric, electricity": "wawa suno", "cursor": "lipu tawa",
+                "computer mouse": "soweli ilo", "to have / to possess": "jo", "knife": "ilo kipisi",
+                "from": "tan", "to grow": "kama suli", "to know": "sona", "brother": "jan sama mije",
+                "fruit": "kili", "now": "tenpo ni", "centre, middle": "insa", "uncle": "jan sama mama",
+                "hot": "seli", "cold": "lete", "China": "ma Sina", "left": "poka pilin", "right (direction)": "poka ante",
+                "row": "linja", "ten / 10": "luka luka", "good, cool, nice": "pona", "bad, evil": "ike",
+                "temptation": "wile ike", "mistake, trespass": "pakala", "hand": "luka", "two / 2": "tu",
+                "and": "en", "because": "tan ni", "to do / to let": "pali", "to feel": "pilin",
+                "to wish / wish": "wile", "second person marker (you, you all)": "sina",
+                "bye": "tawa pona", "to invent / to make": "pali", "foot": "noka", "to forgive": "weka e pakala",
+                "to hurt": "pilin pakala", "father": "mama mije", "grandfather (paternal)": "mama suli",
+                "grandmother (paternal)": "mama suli meli", "ground, land, earth, dirt": "ma",
+                "before": "lon tenpo pini / poka", "to change": "ante", "before (time/previous)": "tenpo pini",
+                "after": "tenpo kama", "furniture": "supa moku", "grass": "kasi lili", "to go / to move": "tawa",
+                "to stop": "pini", "barrier": "sinpin", "car": "ilo tawa", "driver": "jan tawa ilo",
+                "driver (contracted)": "jan tawa", "button": "lili sike", "god": "sewi", "four / 4": "tu tu",
+                "republic": "kulupu ma pona", "loud": "kalama suli", "quiet": "kalama ala", "how": "nasin seme",
+                "what, who": "seme", "where": "lon seme", "when": "tenpo seme", "to save": "pona jo",
+                "to start / to birth / birth / to live / life": "open / kama lon / lon",
+                "to end / to die / death / end / finally / final": "pini / moli",
+                "to stick": "supa namako", "this, these": "ni", "heaven": "sewi kon", "eight / 8": "luka tu tu",
+                "that, those": "ni ante", "on, upon": "sewi", "stone": "kiwen", "one / 1": "wan",
+                "like, similar to": "sama", "building": "tomo", "of (genitive marker)": "pi",
+                "dollar": "mani", "screen": "sinpin suno", "yeah / right / huh / oh": "pona / a", "new": "sin",
+                "skin": "selo", "to join": "kama wan", "but": "taso", "friend": "jan pona", "enemy": "jan utala",
+                "to switch / switch": "ante e wawa", "aware": "sona", "ear": "kute", "sad": "pilin ike",
+                "happy": "pilin pona", "coarse, rough": "kiwen lili", "cobblestone": "kiwen pona", "to excel / to surpass / to exceed": "suli nanpa wan",
+                "than": "ante", "to play": "musi", "cousin": "jan sama lili", "book": "lipu", "word, language": "toki",
+                "to speak, talk, input": "toki", "to output / to hear / to receive": "kute",
+                "speaker": "ilo kalama", "dictionary": "lipu toki", "telephone": "ilo toki", "block, cube": "kiwen supa",
+                "version": "ilo sin lili", "quark": "ijo lili suli", "leaf": "lipu kasi", "tea": "telo kasi seli", "to load / to insert": "pana insa",
+                "to happen": "kama", "almost": "kama lili", "cat": "soweli lili kalama", "sign": "sitelen",
+                "again, once more": "sin", "to reset / to restart": "open sin", "to eat": "moku", "to lock": "pini tomo",
+                "whale": "kala suli sote", "owl": "waso kute", "spot": "pimeja lili", "granite": "kiwen suli",
+                "other": "ante", "question particle": "anu seme", "zero / 0": "ala", "air": "kon",
+                "to fight / fight": "utala", "school": "tomo sona", "student": "jan pi kama sona", "front": "sinpin",
+                "back": "monsi", "light": "suno", "machine": "ilo", "to buy / to shop": "esun",
+                "market": "tomo esun", "to remember": "sona awen", "possible / can / could": "ken",
+                "mother": "mama meli", "grandfather (maternal)": "mama suli mije", "grandmother (maternal)": "mama suli meli",
+                "to progress / progression": "kama suli pona", "continuous, ongoing": "awen tawa",
+                "nose": "noka ula", "boat": "tomo tawa telo", "flint": "kiwen seli open", "nine / 9": "luka tu tu", "name": "nimi",
+                "status": "lon pona", "grade, mark": "nanpa pona", "month": "tenpo mun", "neutron": "neutrón",
+                "to pass": "pona tawa", "to fail": "pakala", "ok": "pona", "to explode": "pakala seli suli",
+                "third person marker (he, she, they, it)": "ona", "passport": "lipu tawa ma ante",
+                "holy": "sewi pona", "five / 5": "luka", "to need": "wile", "water": "telo",
+                "concrete": "kiwen telo", "big, old": "suli / tenpo suli", "small, young": "lili / tenpo lili",
+                "tower, skyscraper": "tomo suli sewi", "kid, child": "jan lili", "to hover": "kon awen",
+                "bird": "waso", "please": "o", "normal, ordinary": "sama ijo ale",
+                "to polish / polished": "pali sinpin", "proton": "protone", "empty": "ala lon", "never / no": "ala",
+                "nothing": "ala", "flamingo": "waso laso loje", "dream": "lape sitelen", "to cram / to fill / to crowd": "kipisi mute",
+                "easy": "pona pali", "hard": "ike pali", "difficulty": "pakala mute", "accessible": "ken tawa",
+                "success": "pona kama", "person, human": "jan", "up": "sewi", "down": "anpa", "column": "kiwen linja",
+                "year": "tenpo sike", "to select": "alasa", "some": "mute lili", "example": "sama", "bone": "kiwen insa",
+                "seven / 7": "luka tu", "star": "suno lili", "thing": "ijo", "to say": "toki", "money": "mani",
+                "bank": "tomo mani", "eye": "oko", "week": "tenpo suno mute", "sister": "meli sama", "shrimp": "kala lili", "son": "mije lili",
+                "mouse": "soweli suek", "to like": "pona tawa", "to love": "olin", "to marry": "wan olin",
+                "list": "linja nimi", "day": "tenpo suno", "night": "tenpo pimeja", "peace / peaceful": "pona awen", "many / most / maybe": "mute",
+                "to practise": "alasa pona toki", "metal": "kiwen wawa", "emergency": "ijo pakala suli", "three / 3": "tu wan",
+                "place": "ma", "short": "lili", "thousand / 1000": "mute suli", "sky": "kon sewi",
+                "aeroplane": "ilo tawa kon", "to fly": "tawa kon", "aeroplane announcement machine": "kalama toki tawa kon",
+                "pilot": "jan tawa kon", "pilot (contracted)": "jan kon", "space (outer space)": "space sewi",
+                "spaceship, rocket": "tomo tawa sewi", "spaceship (contracted)": "ilo sewi",
+                "everything / every / all / yes / always / full": "ale", "hundred / 100": "mute mute suli",
+                "to believe": "pilin sewi", "to sleep / to tire": "lape", "to wake, awaken": "open oko",
+                "so": "tan ni", "technology": "ilo pona", "six / 6": "luka wan", "on (state)": "open wawa",
+                "off (state)": "pini wawa", "to toggle": "commuter", "prawn": "prawn", "or": "anu",
+                "date": "date", "to use": "kepeken", "to be": "lon", "to see / to stare at / look at": "lukin",
+                "TV / television": "TV", "to verify": "alasa pakala", "checkbox": "checkbox",
+                "time": "tenpo", "extremely": "extremely suli", "oil": "telo seli"
+            }
+        };
+
+        const textLabels = {
+            "en": { "translation": "Translation", "etymology": "Etymology", "pos": "Part of Speech", "ipa": "Pronunciation", "examples": "Context Examples" },
+            "de": { "translation": "Übersetzung", "etymology": "Etymologie / Herkunft", "pos": "Wortart", "ipa": "Aussprache", "examples": "Beispielsätze" },
+            "it": { "translation": "Traduzione", "etymology": "Etimologia", "pos": "Parte del Discorso", "ipa": "Pronuncia", "examples": "Esempi di Contesto" },
+            "ja": { "translation": "翻訳", "etymology": "語源 / 来歴", "pos": "品詞の種類", "ipa": "発音記号", "examples": "用例コンテキスト" },
+            "zh_cn": { "translation": "翻译说明", "etymology": "词源考证", "pos": "语法词性", "ipa": "发音标记", "examples": "典型例句" },
+            "zh_tw": { "translation": "翻譯說明", "etymology": "詞源考證", "pos": "語法詞性", "ipa": "發音標記", "examples": "典型例句" },
+            "fr": { "translation": "Traduction", "etymology": "Étymologie", "pos": "Partie du Discours", "ipa": "Prononciation", "examples": "Exemples de Contexte" },
+            "es": { "translation": "Traducción", "etymology": "Etimología", "pos": "Parte de la oración", "ipa": "Pronunciación", "examples": "Ejemplos de Contexto" },
+            "tp": { "translation": "nimi ante pona", "etymology": "tan", "pos": "pali toki", "ipa": "kalama", "examples": "sitelen toki" }
+        };
+
+        function renderWordList() {
+            const container = document.getElementById('wordListContainer');
+            container.innerHTML = '';
+
+            const filtered = rawData.filter(item => {
+                const cyrillicForm = convertToCyrillic(item.word);
+                const matchesSearch = item.word.toLowerCase().includes(queryFilter) || 
+                                      cyrillicForm.includes(queryFilter) ||
+                                      Object.values(item.uses[0].explanation).some(t => t.toLowerCase().includes(queryFilter));
+                const matchesPos = posFilter === 'ALL' || item.uses[0].type === posFilter;
+                return matchesSearch && matchesPos;
+            });
+
+            document.getElementById('entryCount').innerText = filtered.length;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="p-6 text-center text-sm italic text-parchment-500">No definitions found.</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const isSelected = activeSelection && activeSelection.word === item.word;
+                const div = document.createElement('div');
+                div.className = `p-4 cursor-pointer transition-all border-l-4 ${
+                    isSelected 
+                        ? 'bg-parchment-300/40 border-pine dark:bg-zinc-800/60 dark:border-pine' 
+                        : 'border-transparent hover:bg-parchment-300/20 dark:hover:bg-zinc-800/30'
+                }`;
+
+                const currentExplanation = getTranslation(item.uses[0].explanation);
+                const cyrillicForm = convertToCyrillic(item.word);
+
+                div.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-serif font-bold text-base tracking-wide">${item.word} <span class="text-parchment-400 dark:text-darkmode-muted font-normal">/ ${cyrillicForm}</span></span>
+                        <span class="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-parchment-300 dark:bg-zinc-800 text-parchment-700 dark:text-darkmode-muted">${item.uses[0].type}</span>
+                    </div>
+                    <p class="text-xs text-parchment-500 dark:text-darkmode-muted mt-1 truncate">${currentExplanation}</p>
+                `;
+
+                div.onclick = () => {
+                    activeSelection = item;
+                    renderDetailPane();
+                    renderWordList();
+                    if (window.innerWidth < 768) toggleSidebar();
+                };
+
+                container.appendChild(div);
+            });
+        }
+
+        function getTranslation(engString) {
+            if (currentLanguage === 'en') return engString;
+            if (translationDb[currentLanguage] && translationDb[currentLanguage][engString]) {
+                return translationDb[currentLanguage][engString];
+            }
+            return engString; 
+        }
+
+        function renderDetailPane() {
+            const defaultScreen = document.getElementById('defaultScreen');
+            const detailScreen = document.getElementById('detailScreen');
+
+            if (!activeSelection) {
+                defaultScreen.classList.remove('hidden');
+                detailScreen.classList.add('hidden');
+                return;
+            }
+
+            defaultScreen.classList.add('hidden');
+            detailScreen.classList.remove('hidden');
+
+            const labels = textLabels[currentLanguage] || textLabels['en'];
+            const useData = activeSelection.uses[0];
+
+            const translationText = getTranslation(useData.explanation);
+            const etymologyText = getTranslation(useData.etymology);
+            const exampleTransText = getTranslation(useData.exampleTranslation);
+
+            const wordCyrillic = convertToCyrillic(activeSelection.word);
+
+            let examplesBlock = '';
+            if (useData.example) {
+                const exampleCyrillic = convertToCyrillic(useData.example);
+                examplesBlock = `
+                    <div class="mt-8 border-t border-parchment-300 dark:border-darkmode-border pt-6">
+                        <h3 class="text-xs uppercase font-bold tracking-widest text-pine mb-4">${labels.examples}</h3>
+                        <div class="space-y-3">
+                            <div class="p-4 rounded-sm bg-parchment-200/50 dark:bg-darkmode-surface border border-parchment-300 dark:border-darkmode-border">
+                                <p class="font-serif text-lg italic text-pine dark:text-darkmode-text">${useData.example}</p>
+                                <p class="font-serif text-base italic text-pine dark:text-darkmode-text mt-1">${exampleCyrillic}</p>
+                                <p class="text-sm text-parchment-700 dark:text-darkmode-text mt-3 pt-2 border-t border-dashed border-parchment-300 dark:border-zinc-800">${exampleTransText}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            detailScreen.innerHTML = `
+                <div class="space-y-6">
+                    <div class="border-b border-parchment-300 dark:border-darkmode-border pb-6">
+                        <div class="flex flex-wrap items-baseline gap-4">
+                            <h1 class="font-script text-4xl font-bold tracking-wide text-pine">
+                                ${activeSelection.word} <span class="text-2xl font-serif text-parchment-400 dark:text-darkmode-muted font-normal">/ ${wordCyrillic}</span>
+                            </h1>
+                        </div>
+                        <div class="mt-3 flex items-center gap-2">
+                            <span class="text-xs uppercase font-bold tracking-wider px-2 py-0.5 rounded border border-parchment-300 dark:border-darkmode-border bg-parchment-200 dark:bg-darkmode-surface">${useData.type}</span>
+                            ${useData.hasBadge ? `<span class="text-[9px] uppercase font-bold tracking-widest px-2 py-0.5 rounded bg-pine text-white">${useData.badgeText}</span>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xs uppercase font-bold tracking-widest text-parchment-500 dark:text-darkmode-muted mb-2">${labels.translation}</h3>
+                            <p class="font-serif text-base leading-relaxed">${translationText}</p>
+                        </div>
+                        <div class="border-t md:border-t-0 md:border-l border-parchment-300 dark:border-darkmode-border pt-4 md:pt-0 md:pl-6">
+                            <h3 class="text-xs uppercase font-bold tracking-widest text-parchment-500 dark:text-darkmode-muted mb-2">${labels.etymology}</h3>
+                            <p class="text-sm text-parchment-600 dark:text-darkmode-muted leading-relaxed italic">${etymologyText || 'No etymological trace found.'}</p>
+                        </div>
+                    </div>
+
+                    ${examplesBlock}
+                </div>
+            `;
+        }
+
+        function clearSelection() {
+            activeSelection = null;
+            renderDetailPane();
+            renderWordList();
+        }
+
+        function selectRandom() {
+            if (rawData.length === 0) return;
+            const randomIndex = Math.floor(Math.random() * rawData.length);
+            activeSelection = rawData[randomIndex];
+            renderDetailPane();
+            renderWordList();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('posFilter').value = 'ALL';
+            queryFilter = '';
+            posFilter = 'ALL';
+            renderWordList();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('theme') === 'dark' || 
+                (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            }
+
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                queryFilter = e.target.value.toLowerCase();
+                renderWordList();
+            });
+
+            document.getElementById('posFilter').addEventListener('change', (e) => {
+                posFilter = e.target.value;
+                renderWordList();
+            });
+
+            document.getElementById('langSelect').addEventListener('change', (e) => {
+                currentLanguage = e.target.value;
+                renderWordList();
+                if (activeSelection) renderDetailPane();
+            });
+
+            renderWordList();
+        });
+    </script>
+</body>
+</html>
